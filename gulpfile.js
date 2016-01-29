@@ -1,4 +1,6 @@
-var elixir = require('laravel-elixir');
+var gulp = require('gulp'),
+    plugins = require('gulp-load-plugins')(),
+    elixir = require('laravel-elixir');
 
 /*
  |--------------------------------------------------------------------------
@@ -13,4 +15,20 @@ var elixir = require('laravel-elixir');
 
 elixir(function(mix) {
     mix.sass('app.scss');
+});
+
+elixir(function(mix) {
+  mix.scripts([
+      "/backbone/Application.js"
+  ]);
+});
+
+gulp.task('one', function() {
+    console.log('one runs');
+    return gulp.src(".").pipe(plugins.notify('now one runs'));
+});
+
+gulp.task('two', ['one'], function() {
+    console.log('now two runs');
+    return true;
 });

@@ -1,2 +1,16 @@
 // @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 
+#map {
+    height: 100%;
+    width: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+}
+
+#search {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 99;
+}
