@@ -22,7 +22,7 @@
 </head>
 <body>
 	<div id="search">
-			<input type="text" id="term"></input>
+			<input type="text" id="search-term"></input>
 			<div id="autocomplete">
 				<ul></ul>
 			</div>
