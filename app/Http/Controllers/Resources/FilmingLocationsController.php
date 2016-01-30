@@ -40,24 +40,24 @@ class FilmingLocationsController extends Controller
     return view('filming_locations.show', compact('location'));
   }
 
-  public function searchActor()
+  public function searchActors()
   {
-    $actor = Actor::select('id', 'actor_name')->where('actor_name', 'LIKE', "%$query%")->findOne();
-    $actor->withLocations();
+    $query = Request::input('query');
+
+    $actor = Actor::with(['filmingLocations' => function($query) {
+      return $query->with('geocodeInformation');
+    }])->where('actor_name', '=', $query)->get();
 
     return response()->json($actor);
   }
 
-  public function search()
+  public function searchMovies()
   {
+    $query = Request::input('query');
 
-  }
+    $locations = FilmingLocation::with('geocodeInformation')->with('actors')->where('title', '=', $query)->get();
 
-  public function test() {
-    $location = FilmingLocation::find(1);
-    $event = new NewLocationAdded($location);
-
-    Event::fire($event);
+    return response()->json($locations);
   }
 
   public function autocomplete(IlluminateRequest $request)
@@ -66,7 +66,6 @@ class FilmingLocationsController extends Controller
 
     $query = Request::input('query');
 
-    // Prefix only search
     // We could add similar functionality here for searching by location (i.e. "What movies were shot here?")
     $titles = FilmingLocation::select('id', 'title')->where('title', 'LIKE', "%$query%")->groupBy('title')->get();
     $actors = Actor::select('id', 'actor_name')->where('actor_name', 'LIKE', "%$query%")->get();

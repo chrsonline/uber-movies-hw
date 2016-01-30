@@ -85,7 +85,7 @@ class MigrateActorsData extends Migration
 
         });
 
-        Schema::table('actor_filming_location', function (Blueprint $table) {
+        Schema::table('filming_locations', function (Blueprint $table) {
           $table->dropColumn(array('actor_1', 'actor_2', 'actor_3'));
         });
     }

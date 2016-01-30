@@ -16,7 +16,7 @@ class FilmingLocation extends Model
 
   public function geocodeInformation()
   {
-    return $this->hasOne('App\GoogleGeocodingCache', 'id', 'google_geocoding_cache_id');
+    return $this->hasOne('App\GoogleGeocodingCache');
   }
 
   protected static function boot() {

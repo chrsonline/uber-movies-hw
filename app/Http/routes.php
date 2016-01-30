@@ -11,25 +11,6 @@ Route::group(['middleware' => ['api']], function () {
                   ['only' => ['index', 'show']]);
 
   Route::get('search/autocomplete', 'Resources\FilmingLocationsController@autocomplete');
-  Route::get('search/term', 'Resources\FilmingLocationsController@searchTerm');
-  Route::get('test', 'Resources\FilmingLocationsController@test');
+  Route::get('search/actors', 'Resources\FilmingLocationsController@searchActors');
+  Route::get('search/movies', 'Resources\FilmingLocationsController@searchMovies');
 });
-
-
-Route::group([], function() {
-  Route::get('actors', function () {
-      return App\Actor::paginate();
-  });
-  Route::get('locations', function () {
-      return App\FilmingLocation::paginate(30);
-  });
-});
-
-/*
-Route::get('stuff/things', [function() {
-  $url = route('abc');
-  $redirect = redirect()->route('Filming Locations.filming_location.index');
-  return $redirect;
-  return Route::currentRouteName();
-}, 'as' => 'abc']);
-*/
