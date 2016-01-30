@@ -12,6 +12,7 @@ Route::group(['middleware' => ['api']], function () {
 
   Route::get('search/autocomplete', 'Resources\FilmingLocationsController@autocomplete');
   Route::get('search/term', 'Resources\FilmingLocationsController@searchTerm');
+  Route::get('test', 'Resources\FilmingLocationsController@test');
 });
 
 

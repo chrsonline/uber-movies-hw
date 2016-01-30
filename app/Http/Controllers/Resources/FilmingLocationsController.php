@@ -4,11 +4,16 @@ namespace App\Http\Controllers\Resources;
 
 use Illuminate\Http\Request as IlluminateRequest;
 use Request;
+use Event;
 
 use App\Http\Response\PaginatedRestData;
 use App\Http\Controllers\Controller;
 use App\FilmingLocation;
 use App\Actor;
+
+
+
+use App\Events\NewLocationAdded;
 
 class FilmingLocationsController extends Controller
 {
@@ -46,6 +51,13 @@ class FilmingLocationsController extends Controller
   public function search()
   {
 
+  }
+
+  public function test() {
+    $location = FilmingLocation::find(1);
+    $event = new NewLocationAdded($location);
+
+    Event::fire($event);
   }
 
   public function autocomplete(IlluminateRequest $request)

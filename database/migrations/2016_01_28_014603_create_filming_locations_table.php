@@ -16,7 +16,7 @@ class CreateFilmingLocationsTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->integer('release_year');
-            $table->string('locations');
+            $table->string('location');
             $table->string('facts', 800);
             $table->string('production_company');
             $table->string('distributor');
@@ -25,7 +25,7 @@ class CreateFilmingLocationsTable extends Migration
             $table->string('actor_1');
             $table->string('actor_2');
             $table->string('actor_3');
-            $table->string('random');
+            $table->string('misc');
             $table->timestamps();
         });
     }

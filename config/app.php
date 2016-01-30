@@ -152,6 +152,7 @@ return [
         App\Providers\AppServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\GeocodingProvider::class,
         'Collective\Html\HtmlServiceProvider',
 
     ],
