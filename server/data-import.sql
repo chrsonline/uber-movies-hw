@@ -1,4 +1,4 @@
-LOAD DATA LOCAL INFILE '/Users/chris/Downloads/test.csv'
+LOAD DATA LOCAL INFILE 'server/locations.csv'
 INTO TABLE `filming_locations`
 FIELDS TERMINATED BY ','
 ENCLOSED BY '"'

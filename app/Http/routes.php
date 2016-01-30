@@ -11,6 +11,5 @@ Route::group(['middleware' => ['api']], function () {
                   ['only' => ['index', 'show']]);
 
   Route::get('search/autocomplete', 'Resources\FilmingLocationsController@autocomplete');
-  Route::get('search/actors', 'Resources\FilmingLocationsController@searchActors');
-  Route::get('search/movies', 'Resources\FilmingLocationsController@searchMovies');
+  Route::get('search', 'Resources\FilmingLocationsController@search');
 });
