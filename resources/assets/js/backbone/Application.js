@@ -1,5 +1,7 @@
 'use strict';
 
+
+
 jQuery(document).ready(function () {
     var map;
 
@@ -27,13 +29,10 @@ jQuery(document).ready(function () {
       className: 'suggestionBox',
       template: _.template('<%- term %>'),
       initialize: function() {
-        this.model.on('change', this.render, this);
         this.model.on('destroy', this.remove, this);
         this.model.on('change:selected', this.setSelected, this);
       },
       setSelected: function() {
-        console.log("set selected was called");
-        console.log(this.$el);
         this.$el.toggleClass('suggestionBoxSelected', this.model.get('selected'));
       },
       render: function() {
@@ -55,13 +54,9 @@ jQuery(document).ready(function () {
         }
       },
       navigateDown: function() {
-        console.log("Selected set to ");
-        console.log(this.selected);
         if(this.length > 0 && this.selected == null) {
-            console.log("Setting selection to 0");
             this.setSelected(this.at(0));
         } else {
-          console.log("Navigating Down");
           var index = this.indexOf(this.selected);
           if(index < this.length - 1) {
               this.setSelected(this.at(index + 1));
@@ -74,8 +69,6 @@ jQuery(document).ready(function () {
         }
         suggestion.set({ selected: true });
         this.selected = suggestion;
-        console.log("Selected set to ");
-        console.log(this.selected);
       },
       url: function () {
         return '/search/autocomplete?query=' + $('#search-term').val();
@@ -111,7 +104,6 @@ jQuery(document).ready(function () {
 
             if(this.suggestions.selected != null) {
               $('#search-term').val( this.suggestions.selected.get('term') );
-              console.log('Sum gay.');
               var e = jQuery.Event("keydown");
               e.which = 13;
               $('#search-term').trigger(e);
@@ -156,20 +148,6 @@ jQuery(document).ready(function () {
       initialize: function(options) {
         this.map = options.map;
 
-        console.log('geo info');
-        console.log(this.model.get('geocode_information'));
-
-
-        console.log(this.model.get('geocode_information.longitude'));
-        console.log(this.model.get('geocode_information').longitude);
-        console.log(this.model.get('geocode_information').latitude);
-
-        console.log('the whole model');
-        console.log(this.model);
-
-        console.log("omg wtf");
-        console.log(this.map);
-
         this.marker = new google.maps.Marker({
             map: this.map,
             position: new google.maps.LatLng(this.model.get('geocode_information').latitude, this.model.get('geocode_information').longitude),
@@ -180,12 +158,15 @@ jQuery(document).ready(function () {
             id : this.model.get('id')
         });
 
+        console.log("marker");
         this.marker.infowindow = new google.maps.InfoWindow({
           content: this.marker.title
         });
 
         google.maps.event.addListener(this.marker, 'mouseover', this.showPopover);
         google.maps.event.addListener(this.marker, 'mouseout', this.hidePopover);
+
+        this.model.on('destroy', this.remove, this);
       },
       hidePopover : function() {
         this.infowindow.close();
@@ -195,6 +176,7 @@ jQuery(document).ready(function () {
       },
       render: function() { },
       remove : function() {
+        console.log('marker removed');
         this.marker.setMap(null);
         this.marker = null;
       }
@@ -217,7 +199,7 @@ jQuery(document).ready(function () {
         this.results.on('reset', this.addAll, this );
       },
       updateItems: function() {
-        this.results.fetch();
+        this.results.fetch({reset: true});
       },
       addOne: function(searchResult) {
         var view = new app.LocationView({model: searchResult, map: this.map});
