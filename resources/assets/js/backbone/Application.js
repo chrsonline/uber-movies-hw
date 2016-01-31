@@ -4,10 +4,10 @@ jQuery(document).ready(function () {
     var map;
 
     var options = {
-        zoom: 7,
-        center:  new google.maps.LatLng(45.50867, -73.553992),
+        zoom: 11,
+        center:  new google.maps.LatLng(37.793, -122.394),
         mapTypeId: google.maps.MapTypeId.ROADMAP,
-        disableDefaultUI: true
+        // disable default UI
     };
 
     map = new google.maps.Map($('#map')[0], options);
@@ -46,11 +46,11 @@ jQuery(document).ready(function () {
       initialize: function() {
         this.selected = null;
       },
-      startNav: function() {
-      },
       navigateUp: function() {
         var index = this.indexOf(this.selected);
-        if(index > 0) {
+        if(index == 0) {
+
+        } else {
             this.setSelected(this.at(index - 1));
         }
       },
@@ -107,13 +107,16 @@ jQuery(document).ready(function () {
             this.suggestions.navigateUp();
         }
         if (code == 13) {
+            this.suggestions.reset();
 
+            if(this.suggestions.selected != null) {
+              $('#search-term').val( this.suggestions.selected.get('term') );
+              console.log('Sum gay.');
+              var e = jQuery.Event("keydown");
+              e.which = 13;
+              $('#search-term').trigger(e);
+            }
         }
-      },
-      navigate: function() {
-          if(this.suggestions.selected == null) {
-             this.suggestions.startNav()
-          }
       },
       updateItems: function () {
           this.suggestions.fetch();
@@ -131,27 +134,108 @@ jQuery(document).ready(function () {
       }
     });
 
-    app.SearchResult = Backbone.Model.extend({
+    app.Location = Backbone.Model.extend({
+      defaults: {
+        title: '',
+        release_year: '',
+        production_company: '',
+        distributor: '',
+        director: '',
+        writer: '',
+        facts: '',
+        location: '',
+        latitude: '',
+        longitude: '',
+        actors: []
+      }
+    });
 
+
+    app.LocationView = Backbone.View.extend({
+      tagName:  "li",
+      initialize: function(options) {
+        this.map = options.map;
+
+        console.log('geo info');
+        console.log(this.model.get('geocode_information'));
+
+
+        console.log(this.model.get('geocode_information.longitude'));
+        console.log(this.model.get('geocode_information').longitude);
+        console.log(this.model.get('geocode_information').latitude);
+
+        console.log('the whole model');
+        console.log(this.model);
+
+        console.log("omg wtf");
+        console.log(this.map);
+
+        this.marker = new google.maps.Marker({
+            map: this.map,
+            position: new google.maps.LatLng(this.model.get('geocode_information').latitude, this.model.get('geocode_information').longitude),
+            animation: google.maps.Animation.DROP,
+            title: this.model.get('location'),
+            facts: this.model.get('facts'),
+            actors: this.model.get('actors'),
+            id : this.model.get('id')
+        });
+
+        this.marker.infowindow = new google.maps.InfoWindow({
+          content: this.marker.title
+        });
+
+        google.maps.event.addListener(this.marker, 'mouseover', this.showPopover);
+        google.maps.event.addListener(this.marker, 'mouseout', this.hidePopover);
+      },
+      hidePopover : function() {
+        this.infowindow.close();
+      },
+      showPopover : function() {
+        this.infowindow.open(this.map, this);
+      },
+      render: function() { },
+      remove : function() {
+        this.marker.setMap(null);
+        this.marker = null;
+      }
     });
 
     app.SearchResults = Backbone.Collection.extend({
-        // Add a single popover for the selected element
+      url: function () {
+        return '/search/movies?query=' + $('#search-term').val();
+      },
+      parse: function(data) {
+        return data;
+      },
+      model: app.Location
     });
 
-    app.SearchResultView = Backbone.View.extend({
+    app.ResultsView = Backbone.View.extend({
+      initialize: function (options) {
+        this.map = options.map;
+        this.results = new app.SearchResults();
+        this.results.on('reset', this.addAll, this );
+      },
+      updateItems: function() {
+        this.results.fetch();
+      },
+      addOne: function(searchResult) {
+        var view = new app.LocationView({model: searchResult, map: this.map});
 
+        view.render();
+      },
+      addAll: function () {
+        this.results.each( $.proxy( this.addOne, this ) );
+      },
     });
 
     app.autocompleteView = new app.AutocompleteView();
+    app.resultsView = new app.ResultsView({ map: map });
+
     $('#search-term').keydown(function(e) {
       var code = (e.keyCode ? e.keyCode : e.which);
-      if (code == 40) {
-          // Set suggestions view to navigation mode
-          app.autocompleteView.navigate();
-      }
       if (code == 13) {
-            // request selections
+            app.resultsView.updateItems();
             // also have a little search button to be pressed
             // Display the current search term - no results if nothing
             // Display aggregate information in panel overlayed on the left side

@@ -67,8 +67,8 @@ class FilmingLocationsController extends Controller
     $query = Request::input('query');
 
     // We could add similar functionality here for searching by location (i.e. "What movies were shot here?")
-    $titles = FilmingLocation::select('id', 'title')->where('title', 'LIKE', "%$query%")->groupBy('title')->get();
-    $actors = Actor::select('id', 'actor_name')->where('actor_name', 'LIKE', "%$query%")->get();
+    $titles = FilmingLocation::select('id', 'title')->where('title', 'LIKE', "%$query%")->limit(5)->groupBy('title')->get();
+    $actors = Actor::select('id', 'actor_name')->where('actor_name', 'LIKE', "%$query%")->limit(5)->get();
 
     foreach($actors as $actor) {
       $suggestions[] = [
