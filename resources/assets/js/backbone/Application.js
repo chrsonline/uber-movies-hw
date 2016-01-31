@@ -107,6 +107,7 @@ jQuery(document).ready(function () {
         return true;
       },
       handleEnterUp: function(e) {
+        console.log('enterup');
         if(e.keyCode == 13) {
           this.suggestions.reset();
 
@@ -114,6 +115,7 @@ jQuery(document).ready(function () {
             var term = this.suggestions.selected.get('title');
             $('#search-term').val( term );
 
+            console.log('fetching results from ssdfd');
             app.resultsView.updateItems();
           }
         }
@@ -135,7 +137,7 @@ jQuery(document).ready(function () {
     });
 
 
-    
+
     app.Location = Backbone.Model.extend({
       defaults: {
         title: '',
@@ -176,21 +178,24 @@ jQuery(document).ready(function () {
                     '<p><b>Actors:</b></p>' + actorList;
 
 
-        this.marker = new google.maps.Marker({
-            map: this.map,
-            position: new google.maps.LatLng(this.model.get('geocode_information').latitude, this.model.get('geocode_information').longitude),
-            animation: google.maps.Animation.DROP,
-            info: markerInfo
-        });
+        var geocodeInfo = this.model.get('geocode_information');
+        if(geocodeInfo) {
+          this.marker = new google.maps.Marker({
+              map: this.map,
+              position: new google.maps.LatLng(geocodeInfo.latitude, geocodeInfo.longitude),
+              animation: google.maps.Animation.DROP,
+              info: markerInfo
+          });
 
-        this.marker.infowindow = new google.maps.InfoWindow({
-          content: this.marker.info
-        });
+          this.marker.infowindow = new google.maps.InfoWindow({
+            content: this.marker.info
+          });
 
-        google.maps.event.addListener(this.marker, 'mouseover', this.showPopover);
-        google.maps.event.addListener(this.marker, 'mouseout', this.hidePopover);
+          google.maps.event.addListener(this.marker, 'mouseover', this.showPopover);
+          google.maps.event.addListener(this.marker, 'mouseout', this.hidePopover);
 
-        this.model.on('remove', this.removeMarker, this);
+          this.model.on('remove', this.removeMarker, this);
+        }
       },
       hidePopover : function() {
         this.infowindow.close();
@@ -234,11 +239,13 @@ jQuery(document).ready(function () {
         });
         this.results.remove(remove);
 
+        console.log('fetching results');
         this.results.fetch();
       },
       updateMovieInfoWindow: function () {
         var info = this.results.at(0);
 
+        console.log(info);
         $('#results-for').html(this.buildMovieInfo(info));
 
         this.centerMapOnMarkers();
@@ -258,11 +265,15 @@ jQuery(document).ready(function () {
 
         for (var i = 0; i < this.results.length; i++) {
           var geocodeInfo = this.results.at(i).get('geocode_information');
-          bounds.extend(new google.maps.LatLng(geocodeInfo.latitude, geocodeInfo.longitude));
+          if(geocodeInfo) {
+              bounds.extend(new google.maps.LatLng(geocodeInfo.latitude, geocodeInfo.longitude));
+          }
         }
 
-        this.map.fitBounds(bounds);
-        this.map.setZoom(this.map.getZoom() - 2);
+        if(!bounds.isEmpty()) {
+          this.map.fitBounds(bounds);
+          this.map.setZoom(this.map.getZoom() - 2);
+        }
       }
     });
 
