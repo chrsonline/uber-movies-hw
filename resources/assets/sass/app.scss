@@ -15,6 +15,26 @@
     z-index: 99;
 }
 
+#movie-info {
+  position: absolute;
+  background-color: white;
+  width: 200px;
+  height: 200px;
+  top: 50%;
+  left: 10px;
+  z-index: 99;
+}
+
+#results-for {
+  position: absolute;
+  background-color: white;
+  width: 200px;
+  height: 200px;
+  top: 10px;
+  left: 50%;
+  z-index: 99;
+}
+
 .suggestionBox {
     background-color: #ccffcc
 }

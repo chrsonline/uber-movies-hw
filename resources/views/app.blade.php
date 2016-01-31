@@ -22,12 +22,14 @@
 </head>
 <body>
 	<div id="search">
-			<input type="text" id="search-term"></input>
+			<input type="text" id="search-term" autofocus></input>
 			<div id="autocomplete">
 				<ul></ul>
 			</div>
 	</div>
-	<div id="map" />
+
+	<div id="results-for"></div>
+	<div id="map"></div
 
 	<!-- Scripts -->
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>

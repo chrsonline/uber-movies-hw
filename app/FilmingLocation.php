@@ -9,11 +9,6 @@ class FilmingLocation extends Model
 {
   public $timestamps = false;
 
-  public function actors()
-  {
-    return $this->belongsToMany('App\Actor');
-  }
-
   public function geocodeInformation()
   {
     return $this->hasOne('App\GoogleGeocodingCache');

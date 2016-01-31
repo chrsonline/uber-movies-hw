@@ -16,8 +16,8 @@ jQuery(document).ready(function () {
 
     app.Suggestion = Backbone.Model.extend({
       defaults: {
-        term: 'aa',
-        type: 'ss',
+        title: 'aa',
+        location: 'ss',
         selected: false
       }
     });
@@ -25,7 +25,7 @@ jQuery(document).ready(function () {
     app.SuggestionView = Backbone.View.extend({
       tagName: 'li',
       className: 'suggestionBox',
-      template: _.template('<%- term %>'),
+      template: _.template('<%- title %> - <%- location %>'),
       initialize: function() {
         this.model.on('destroy', this.remove, this);
         this.model.on('change:selected', this.setSelected, this);
@@ -111,10 +111,16 @@ jQuery(document).ready(function () {
           this.suggestions.reset();
 
           if(this.suggestions.selected != null) {
-            $('#search-term').val( this.suggestions.selected.get('term') );
+            var term = this.suggestions.selected.get('title');
+            $('#search-term').val( term );
+            this.updateSearchText( term );
+
             app.resultsView.updateItems();
           }
         }
+      },
+      updateSearchText: function (term) {
+          $('#results-for').html(term);
       },
       updateItems: function () {
           this.suggestions.fetch();
@@ -183,25 +189,34 @@ jQuery(document).ready(function () {
       }
     });
 
-
     app.LocationView = Backbone.View.extend({
       tagName:  "li",
       initialize: function(options) {
         this.map = options.map;
         this.model = options.model;
 
+        // Move to a better place
+        var actorList = '<ul>';
+        actorList += '<li>' + this.model.get('actor_1') + '</li>';
+        actorList += '<li>' + this.model.get('actor_2') + '</li>';
+        actorList += '<li>' + this.model.get('actor_3') + '</li>';
+        actorList += '</ul>';
+
+        var markerInfo = '<br />' +
+                    '<p style="float: center"><b>' + this.model.get('location') + '</b></p><br />' +
+                    '<p><b>Fun Facts:</b><br />' + this.model.get('facts') + '<br /><br />' +
+                    '<p><b>Actors:</b></p>' + actorList;
+
+
         this.marker = new google.maps.Marker({
             map: this.map,
             position: new google.maps.LatLng(this.model.get('geocode_information').latitude, this.model.get('geocode_information').longitude),
             animation: google.maps.Animation.DROP,
-            title: this.model.get('location'),
-            facts: this.model.get('facts'),
-            actors: this.model.get('actors'),
-            id : this.model.get('id')
+            info: markerInfo
         });
 
         this.marker.infowindow = new google.maps.InfoWindow({
-          content: this.marker.title
+          content: this.marker.info
         });
 
         google.maps.event.addListener(this.marker, 'mouseover', this.showPopover);
@@ -226,14 +241,14 @@ jQuery(document).ready(function () {
         this.map = options.map;
       },
       url: function () {
-        return '/search/movies?query=' + $('#search-term').val();
+        return '/search?query=' + $('#search-term').val();
       },
       parse: function(data) {
         var index;
-        for (index = 0; index < data.length; ++index) {
-            data[index].map = this.map;
+        for (index = 0; index < data.results.length; ++index) {
+            data.results[index].map = this.map;
         }
-        return data;
+        return data.results;
       },
       model: app.Location
     });
@@ -242,6 +257,7 @@ jQuery(document).ready(function () {
       initialize: function (options) {
         this.map = options.map;
         this.results = new app.SearchResults([], { map: this.map });
+        this.results.on('reset', this.updateMovieInfoWindow, this);
       },
       updateItems: function() {
         var remove = [];
@@ -251,21 +267,14 @@ jQuery(document).ready(function () {
         this.results.remove(remove);
 
         this.results.fetch();
+      },
+      updateMovieInfoWindow: function () {
+        var info = this.results.at(0);
+        $('#movie-info').html(info.get('title') + ' <br /> ' + info.get('production_company'));
       }
     });
 
     app.autocompleteView = new app.AutocompleteView();
     app.resultsView = new app.ResultsView({ map: map });
 
-    $('#search-term').keydown(function(e) {
-      var code = (e.keyCode ? e.keyCode : e.which);
-      if (code == 13) {
-            // also have a little search button to be pressed
-            // Display the current search term - no results if nothing
-            // Display aggregate information in panel overlayed on the left side
-            // Clear current search results if necessary
-            // Kick off searchresults collection with call of type/term
-      }
-
-    });
 });
