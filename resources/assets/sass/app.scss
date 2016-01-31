@@ -12,27 +12,35 @@
     position: absolute;
     top: 10px;
     left: 10px;
+    width: 300px;
     z-index: 99;
 }
 
-#movie-info {
-  position: absolute;
-  background-color: white;
-  width: 200px;
-  height: 200px;
-  top: 50%;
-  left: 10px;
-  z-index: 99;
+#search-term {
+  width: 100%;
 }
 
 #results-for {
   position: absolute;
   background-color: white;
-  width: 200px;
-  height: 200px;
-  top: 10px;
-  left: 50%;
+  padding: 10px;
+  top: 50%;
+  left: 10px;
   z-index: 99;
+}
+
+#autocomplete {
+  position: relative;
+  width: 100%;
+  left: 0px;
+  top: 0px;
+}
+
+#autocomplete ul {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  list-style-type:none
 }
 
 .suggestionBox {

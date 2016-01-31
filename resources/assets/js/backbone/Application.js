@@ -16,8 +16,8 @@ jQuery(document).ready(function () {
 
     app.Suggestion = Backbone.Model.extend({
       defaults: {
-        title: 'aa',
-        location: 'ss',
+        title: 'Unknown',
+        location: 'Location name unknown',
         selected: false
       }
     });
@@ -113,14 +113,10 @@ jQuery(document).ready(function () {
           if(this.suggestions.selected != null) {
             var term = this.suggestions.selected.get('title');
             $('#search-term').val( term );
-            this.updateSearchText( term );
 
             app.resultsView.updateItems();
           }
         }
-      },
-      updateSearchText: function (term) {
-          $('#results-for').html(term);
       },
       updateItems: function () {
           this.suggestions.fetch();
@@ -139,35 +135,7 @@ jQuery(document).ready(function () {
     });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
     app.Location = Backbone.Model.extend({
       defaults: {
         title: '',
@@ -270,7 +238,31 @@ jQuery(document).ready(function () {
       },
       updateMovieInfoWindow: function () {
         var info = this.results.at(0);
-        $('#movie-info').html(info.get('title') + ' <br /> ' + info.get('production_company'));
+
+        $('#results-for').html(this.buildMovieInfo(info));
+
+        this.centerMapOnMarkers();
+      },
+      buildMovieInfo: function (info) {
+        return '<b>Movie Info</b><br /><br />' +
+                '<b>Title:</b> ' + info.get('title') + ' <br /> ' +
+                '<b>Production Company:</b> ' + info.get('production_company') + ' <br />' +
+                '<b>Release Year:</b> ' + info.get('release_year') + ' <br />' +
+                '<b>Distributor:</b> ' + info.get('distributor') + ' <br />' +
+                '<b>Director:</b> ' + info.get('director') + ' <br />' +
+                '<b>Writer:</b> ' + info.get('writer');
+
+      },
+      centerMapOnMarkers: function () {
+        var bounds = new google.maps.LatLngBounds();
+
+        for (var i = 0; i < this.results.length; i++) {
+          var geocodeInfo = this.results.at(i).get('geocode_information');
+          bounds.extend(new google.maps.LatLng(geocodeInfo.latitude, geocodeInfo.longitude));
+        }
+
+        this.map.fitBounds(bounds);
+        this.map.setZoom(this.map.getZoom() - 2);
       }
     });
 
