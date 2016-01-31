@@ -1,7 +1,5 @@
 'use strict';
 
-
-
 jQuery(document).ready(function () {
     var map;
 
@@ -9,7 +7,7 @@ jQuery(document).ready(function () {
         zoom: 11,
         center:  new google.maps.LatLng(37.793, -122.394),
         mapTypeId: google.maps.MapTypeId.ROADMAP,
-        // disable default UI
+        // disable default UI and add an icon
     };
 
     map = new google.maps.Map($('#map')[0], options);
@@ -47,8 +45,12 @@ jQuery(document).ready(function () {
       },
       navigateUp: function() {
         var index = this.indexOf(this.selected);
+        if(index < 0) {
+            return false;
+        }
         if(index == 0) {
-
+            this.selected.set({ selected: false });
+            this.selected = null;
         } else {
             this.setSelected(this.at(index - 1));
         }
@@ -84,30 +86,34 @@ jQuery(document).ready(function () {
       initialize: function() {
           this.suggestions = new app.Suggestions();
           this.suggestions.on('reset', this.addAll, this );
+          this.ignoreKey = false;
       },
       events: {
-          "change input": "updateItems",
           "input #search-term": "updateItems",
-          'keyup :input': 'handleKeyPress',
-          'keypress :input': 'handleKeyPress'
+          'keydown :input': 'handleKeyPress',
+          'keypress :input': 'handleKeyPress',
+          'keyup :input': 'handleEnterUp'
       },
       handleKeyPress: function(e) {
-        var code = (e.keyCode ? e.keyCode : e.which);
-        if (code == 40) {
+        if (e.keyCode == 40) {
             this.suggestions.navigateDown();
+            return false;
         }
-        if (code == 38) {
-            this.suggestions.navigateUp();
+        if (e.keyCode == 38) {
+           this.suggestions.navigateUp();
+           return false;
         }
-        if (code == 13) {
-            this.suggestions.reset();
 
-            if(this.suggestions.selected != null) {
-              $('#search-term').val( this.suggestions.selected.get('term') );
-              var e = jQuery.Event("keydown");
-              e.which = 13;
-              $('#search-term').trigger(e);
-            }
+        return true;
+      },
+      handleEnterUp: function(e) {
+        if(e.keyCode == 13) {
+          this.suggestions.reset();
+
+          if(this.suggestions.selected != null) {
+            $('#search-term').val( this.suggestions.selected.get('term') );
+            app.resultsView.updateItems();
+          }
         }
       },
       updateItems: function () {
@@ -126,6 +132,36 @@ jQuery(document).ready(function () {
       }
     });
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     app.Location = Backbone.Model.extend({
       defaults: {
         title: '',
@@ -139,6 +175,11 @@ jQuery(document).ready(function () {
         latitude: '',
         longitude: '',
         actors: []
+      },
+      initialize: function(attributes) {
+        this.map = attributes.map;
+        var view = new app.LocationView({model: this, map: this.map});
+        view.render();
       }
     });
 
@@ -147,6 +188,7 @@ jQuery(document).ready(function () {
       tagName:  "li",
       initialize: function(options) {
         this.map = options.map;
+        this.model = options.model;
 
         this.marker = new google.maps.Marker({
             map: this.map,
@@ -158,7 +200,6 @@ jQuery(document).ready(function () {
             id : this.model.get('id')
         });
 
-        console.log("marker");
         this.marker.infowindow = new google.maps.InfoWindow({
           content: this.marker.title
         });
@@ -166,7 +207,7 @@ jQuery(document).ready(function () {
         google.maps.event.addListener(this.marker, 'mouseover', this.showPopover);
         google.maps.event.addListener(this.marker, 'mouseout', this.hidePopover);
 
-        this.model.on('destroy', this.remove, this);
+        this.model.on('remove', this.removeMarker, this);
       },
       hidePopover : function() {
         this.infowindow.close();
@@ -174,19 +215,24 @@ jQuery(document).ready(function () {
       showPopover : function() {
         this.infowindow.open(this.map, this);
       },
-      render: function() { },
-      remove : function() {
-        console.log('marker removed');
+      removeMarker : function() {
         this.marker.setMap(null);
         this.marker = null;
       }
     });
 
     app.SearchResults = Backbone.Collection.extend({
+      initialize: function (models, options) {
+        this.map = options.map;
+      },
       url: function () {
         return '/search/movies?query=' + $('#search-term').val();
       },
       parse: function(data) {
+        var index;
+        for (index = 0; index < data.length; ++index) {
+            data[index].map = this.map;
+        }
         return data;
       },
       model: app.Location
@@ -195,20 +241,17 @@ jQuery(document).ready(function () {
     app.ResultsView = Backbone.View.extend({
       initialize: function (options) {
         this.map = options.map;
-        this.results = new app.SearchResults();
-        this.results.on('reset', this.addAll, this );
+        this.results = new app.SearchResults([], { map: this.map });
       },
       updateItems: function() {
-        this.results.fetch({reset: true});
-      },
-      addOne: function(searchResult) {
-        var view = new app.LocationView({model: searchResult, map: this.map});
+        var remove = [];
+        this.results.each(function(result) {
+          remove.push(result);
+        });
+        this.results.remove(remove);
 
-        view.render();
-      },
-      addAll: function () {
-        this.results.each( $.proxy( this.addOne, this ) );
-      },
+        this.results.fetch();
+      }
     });
 
     app.autocompleteView = new app.AutocompleteView();
@@ -217,7 +260,6 @@ jQuery(document).ready(function () {
     $('#search-term').keydown(function(e) {
       var code = (e.keyCode ? e.keyCode : e.which);
       if (code == 13) {
-            app.resultsView.updateItems();
             // also have a little search button to be pressed
             // Display the current search term - no results if nothing
             // Display aggregate information in panel overlayed on the left side
