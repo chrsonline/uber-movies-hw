@@ -17,7 +17,11 @@
   - geocoding key
     - get from google places
 
-### loading data
+### Application administration
+
+- Using artisan
+
+##### Loading data
   - data imports
     - records
     - .sql dump import

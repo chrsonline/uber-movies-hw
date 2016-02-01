@@ -5,6 +5,8 @@ npm install
 curl -sS https://getcomposer.org/installer | php
 php composer.phar install
 
+cp .env.default .env
+
 # Create Database -- For mysql database import - preferring sqlite3 for ease of use
 # echo "drop database test; create database test;" | mysql -u root -p -P 3306 -h localhost
 # php artisan migrate:refresh --path=database/migrations

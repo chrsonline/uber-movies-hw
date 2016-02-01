@@ -7,7 +7,7 @@ return [
       'lat' => 37.7833,
       'lon' => -122.4167
     ],
-    'key' => 'AIzaSyCIAcb4CwjtSwtMcsWEFm2yT4AsNTkZDV8',
+    'key' => env('GOOGLE_PLACES_API_KEY', ''),
     'radius' => 10000,
     'output' => 'json'
 ];

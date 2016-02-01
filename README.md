@@ -221,6 +221,9 @@ You should be able to spin up a local php webserver supporting the needed functi
 - sqlite3
   - `sqlite3 libsqlite3-dev` (ubuntu)
   - `brew install sqlite3` (osx although it should come pre-installed)
+- curl
+  - `curl`
+  - `brew install curl` (osx although it should come pre-installed)
 
 Run:
 
