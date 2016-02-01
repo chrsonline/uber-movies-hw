@@ -4,35 +4,126 @@ This is a simple web app that let's you search for movie filming locations in th
 
 The project is currently hosted on an Amazon EC2 instance [here](http://amazon.com).
 
+## Problem statement
 
-## Technology used
+SF Movies
 
-Backend
-Laravel - framework for MVC, database access, event triggers and console commands
-Google Places API - geocoding locations to get displayable coordinates
-phpunit - for tests
+Create a service that shows on a map where movies have been filmed in San Francisco. The user should be able to filter the view using autocompletion search.
 
-Frontend
+The data is available on DataSF: Film Locations.
+
+More information on the problem statement can be seen [here](https://github.com/uber/coding-challenge-tools/blob/master/coding_challenge.md).
+
+##### Deliverables
+
+• A	text	description	of	the	use	cases	your	solution	addresses.
+
+• Block	diagram of	the	design.
+
+• Code	for	the	solution,	including	build	&	test	instructions.
+
+• Description	of	future	enhancements	to	make	the	application	more	useful.
+
+
+## Use cases this solution addresses
+
+This web appplication addresses the 4 use cases outlined below.
+
+1. **Request suggestions** - User requests suggestions for matching text based on an input query.
+  * A request is made to the Film Locations API via a GET request to `search/autocomplete` with the users input as they type.
+
+    * Request/response details available in [**the API Documentation**](docs/locations-api-response-schema.md#autocomplete-suggestions).
+
+
+  * The API will perform a textual search of movies and locations returning whole or partial matches of `query`. Search is to be performed in a case and diacritic insensitive manner.
+
+ * On a success response from the server, suggestions will autocomplete a drop down list with the related movie title that initiate a search for the movie when selected.
+
+ * If no matching suggestions can be returned, the user will receive an array of empty suggestions and no autocomplete suggestions are displayed.
+
+2. **Select suggestion** - A user chooses a suggested search term to initiate a search on the selected term.
+  * From a set of displayed suggestions, the search term matching a particular movie title is populated in to the search box.
+
+3. **Request locations** - User submits an API request to search for a movie title
+  * From the search box a user submits an API request to retrieve corresponding movie locations for the selected title.
+
+  * A request is made to the Film Locations API via a GET request to `search`. The API will perform a textual search of movie titles returning whole matches of `query`. Search is to be performed in a case and diacritic insensitive manner.
+
+    * Request/response details available in [**the API Documentation**](docs/locations-api-response-schema.md#locations-search).
+
+
+  * If no movies are found the API will respond with an empty `results` array.
+
+  * Aggregate information about the movie will be displayed in a results box somewhere on the screen.
+
+  * The location results will be displayed on the map, with the ability to view corresponding location names, fun facts, and names of actors who participated in the shoot.
+
+4. **View location** - User mouses over a display pin on the map and a popup is temporarily displayed with more information.
+  * When the cursor is hovered above a displayed location, a popup will appear with more information.
+
+  * When the cursor moves away from hovering, the popup will disappear.
+
+  * Any portions of the data not returned, or returned empty should not have an effect on usability.
+
+### Technology used
+
+##### Backend
+
+PHP - I chose PHP based on my experience with the language and frameworks.
+Laravel - PHP Framework for MVC, database access, event triggers and console commands
+Google Places API - For geocoding locations to displayable coordinates.
+PHPUnit - Unit testing framework for the backend application.
+Gulp.js - Build system for compiling sass and javascript files.
+
+##### Frontend
+
 Google maps API
-Backbone.js - For maintaining front-end data models and related view
-underscore.js - For templating
-jquery - For various DOM manipulation and page load event structure.
-gulp - build system for compiling sass and simplifying (concatenating) javascript
+Backbone.js - Framework for front-end data models and related data views.
+underscore.js - Templating language for rendering HTML views on the page.
+jQuery - DOM manipulation and events.
 
-
-See the [architecture diagram](docs/architecture) here for an overview of the platform and core abstractions that are used.
+See the [architecture diagram](docs/architecture-diagram.png) here for an overview of the platform and core abstractions that are used.
 
 
 ## Installation
 
 You should be able to spin up a local php webserver supporting the needed functionality if you have the following dependencies installed:
-- npm
-- php5.6
-- composer
-- sqlite3
 
-Simply run `server/setup.md` and a local web server should start at [http://localhost:8000](http://localhost:8000) with a backing sqlite3 database.
+- node/npm
+  - `brew install node` (osx)
+  - `sudo apt-get update && apt-get install nodejs` (ubuntu)
+- php5.6+
+  - `brew install php56` (osx)
+  - `sudo apt-get update && apt-get install php5 php5-mysql` (ubuntu)
+- sqlite3
+  - `sqlite3 libsqlite3-dev` (ubuntu)
+  - `brew install sqlite3` (osx although it should come pre-installed)
+- curl
+  - `curl`
+  - `brew install curl` (osx although it should come pre-installed)
+
+Run:
+
+```
+git clone git@github.com:/riguy724/uber-movies-hw
+server/setup.sh
+```
+
+from the root directory and a local web server should start at [http://localhost:8000](http://localhost:8000).
+
+It will be backed by a local sqlite database with the filming locations and geocode information already present. Be aware that text searches in sqlite are rather slow, so there may be some delay in the retrieval of data from the API.
 
 [Note: This server should never be used outside of local development.]
 
+
 For detailed setup instructions or to host the application on a server please refer to the [Installation notes](docs/installation.md) section.
+
+### Future enhancements
+
+* Improved search functionality for any field, might require using something like lucene as a document store to improve full text search on an entire records, so as not to have to specify every field in a mysql "like" query.
+
+* Improved data validation and error schema.  There is some allowance for expections being thrown, but if this service were to be consumer or maintained for use as a maintained or publicly accessible API, there would need to be a lot of additional error handling and service specification.
+
+* Paginated collection browsing, following better restful document access for each location, movie, actor.
+
+* Allowing search by related records (actors, movies etc...) would require that the dataset be better organized.
