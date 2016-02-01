@@ -15,33 +15,38 @@ The project is currently hosted on an Amazon EC2 instance [here](http://amazon.c
       - `query` - The text to match in the search
 
   * The API will perform a textual search of movies and locations returning whole or partial matches of `query`.
+
   * A response is given to the user of the following format:
-```json
-{
-  "suggestions": {
-    "type": "array",
-    "items": {
-      "type": "object",
-      "properties": {
-        "title": {
-          "description": "The title of the movie.",
-          "type": "string"
-        },
-        "location": {
-          "description": "A description of the filming location.",
-          "type": "string"
+    ```json
+    {
+      "suggestions" : {
+        "type" : "array",
+        "items" : {
+          "type" : "object",
+          "properties" : {
+            "title" : {
+              "description" : "The title of the movie.",
+              "type" : "string"
+            },
+            "location" : {
+              "description" : "A description of the filming location.",
+              "type" : "string"
+            }
+          }
         }
       }
     }
-  }
-}
-```
- - Suggestions will autocomplete with the related movie title when selected
- - If no matching suggestions can be returned, the user will receive an array of empty suggestions.
+    ```
 
- 2. Select suggestion - A user chooses a suggested search term
+ * Suggestions will autocomplete with the related movie title when selected
 
- 3. Request locations - User
+ * If no matching suggestions can be returned, the user will receive an array of empty suggestions.
+
+2. Select suggestion - A user chooses a suggested search term
+
+3. Request locations - User submits an API request to
+
+4. View location - User mouses over a display pin on the map
 
 ### Technology used
 
