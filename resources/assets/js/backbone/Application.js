@@ -112,7 +112,7 @@ jQuery(document).ready(function () {
               position: new google.maps.LatLng(geocodeInfo.latitude, geocodeInfo.longitude),
               animation: google.maps.Animation.DROP,
               info: this.buildMarkerInfo(),
-              icon: '../img/film.png'
+              icon: 'img/film.png'
           });
 
           this.marker.infowindow = new google.maps.InfoWindow({
