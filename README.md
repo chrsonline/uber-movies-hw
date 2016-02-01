@@ -236,7 +236,7 @@ jquery - For various DOM manipulation and page load event structure.
 gulp - build system for compiling sass and simplifying (concatenating) javascript
 
 
-See the [architecture diagram](docs/architecture) here for an overview of the platform and core abstractions that are used.
+See the [architecture diagram](docs/architecture-diagram.png) here for an overview of the platform and core abstractions that are used.
 
 
 ## Installation
