@@ -5,7 +5,45 @@ This is a simple web app that let's you search for movie filming locations in th
 The project is currently hosted on an Amazon EC2 instance [here](http://amazon.com).
 
 
-## Technology used
+## Use cases this solution addresses
+
+1. Request suggestions - User requests suggestions for matching text based on an input query.
+  * A request is made to the Film Locations API via a GET request to `search/autocomplete` and the following parameter set:
+
+    **Required Parameters**
+
+      - `query` - The text to match in the search
+
+  * The API will perform a textual search of movies and locations returning whole or partial matches of `query`.
+  * A response is given to the user of the following format:
+```json
+{
+  "suggestions": {
+    "type": "array",
+    "items": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "description": "The title of the movie.",
+          "type": "string"
+        },
+        "location": {
+          "description": "A description of the filming location.",
+          "type": "string"
+        }
+      }
+    }
+  }
+}
+```
+ - Suggestions will autocomplete with the related movie title when selected
+ - If no matching suggestions can be returned, the user will receive an array of empty suggestions.
+
+ 2. Select suggestion - A user chooses a suggested search term
+
+ 3. Request locations - User
+
+### Technology used
 
 Backend
 Laravel - framework for MVC, database access, event triggers and console commands
