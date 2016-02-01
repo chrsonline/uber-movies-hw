@@ -34,7 +34,7 @@ More information on the problem statement can be seen [here](https://github.com/
 
       - `query` - The text to match in the search
 
-  * The API will perform a textual search of movies and locations returning whole or partial matches of `query`.
+  * The API will perform a textual search of movies and locations returning whole or partial matches of `query`. Search is to be performed in a case and diacritic insensitive manner.
 
   * A response is given to the user of the following format:
     ```json
@@ -87,7 +87,7 @@ More information on the problem statement can be seen [here](https://github.com/
 
       - `query` - The movie title
 
-  * The API will perform a textual search of movie titles returning whole matches of `query`.
+  * The API will perform a textual search of movie titles returning whole matches of `query`. Search is to be performed in a case and diacritic insensitive manner.
 
   * A response is given to the user of the following format:
     ```json
@@ -136,7 +136,7 @@ More information on the problem statement can be seen [here](https://github.com/
           },
           "misc": {
             "type": "string"
-          }
+          },
           "geocode_information": {
             "type": "object",
             "properties": {
@@ -190,18 +190,20 @@ More information on the problem statement can be seen [here](https://github.com/
 
 ### Technology used
 
-Backend
-Laravel - framework for MVC, database access, event triggers and console commands
-Google Places API - geocoding locations to get displayable coordinates
-phpunit - for tests
+##### Backend
 
-Frontend
+PHP - I chose PHP based on my experience with the language and frameworks.
+Laravel - PHP Framework for MVC, database access, event triggers and console commands
+Google Places API - For geocoding locations to displayable coordinates.
+PHPUnit - Unit testing framework for the backend application.
+Gulp.js - Build system for compiling sass and javascript files.
+
+##### Frontend
+
 Google maps API
-Backbone.js - For maintaining front-end data models and related view
-underscore.js - For templating
-jquery - For various DOM manipulation and page load event structure.
-gulp - build system for compiling sass and simplifying (concatenating) javascript
-
+Backbone.js - Framework for front-end data models and related data views.
+underscore.js - Templating language for rendering HTML views on the page.
+jQuery - DOM manipulation and events.
 
 See the [architecture diagram](docs/architecture-diagram.png) here for an overview of the platform and core abstractions that are used.
 
@@ -209,16 +211,37 @@ See the [architecture diagram](docs/architecture-diagram.png) here for an overvi
 ## Installation
 
 You should be able to spin up a local php webserver supporting the needed functionality if you have the following dependencies installed:
-- npm
-- php5.6
-- composer
-- sqlite3
 
-Simply run `server/setup.md` and a local web server should start at [http://localhost:8000](http://localhost:8000) with a backing sqlite3 database.
+- node/npm
+  - `brew install node` (osx)
+  - `sudo apt-get update && apt-get install nodejs` (ubuntu)
+- php5.6+
+  - `brew install php56` (osx)
+  - `sudo apt-get update && apt-get install php5 php5-mysql` (ubuntu)
+- sqlite3
+  - `sqlite3 libsqlite3-dev` (ubuntu)
+  - `brew install sqlite3` (osx although it should come pre-installed)
+
+Run:
+
+```
+git clone git@github.com:/riguy724/uber-movies-hw
+server/setup.sh
+```
+
+from the root directory and a local web server should start at [http://localhost:8000](http://localhost:8000).
+
+It will be backed by a local sqlite database with the filming locations and geocode information already present. Be aware that text searches in sqlite are rather slow, so there may be some delay in the retrieval of data from the API.
 
 [Note: This server should never be used outside of local development.]
 
+
 For detailed setup instructions or to host the application on a server please refer to the [Installation notes](docs/installation.md) section.
 
-
 ### Future enhancements
+
+Improved search functionality for any field, might require using something like lucene as a document store to improve full text search on an entire records, so as not to have to specify every field in a mysql "like" query.
+
+Improved data validation and error schema.  There is some allowance for expections being thrown
+Paginated collection browsing, following better restful document access for each location, movie, actor.
+Allowing search by related records (actors, movies etc...) would require that the dataset be better organized.
