@@ -9,11 +9,11 @@
 }
 
 #search {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    width: 300px;
-    z-index: 99;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 300px;
+  z-index: 99;
 }
 
 #search-term {
@@ -21,26 +21,39 @@
 }
 
 #results-for {
+  display: none;
   position: absolute;
+  width: 25%;
+  padding: 20px;
   background-color: white;
-  padding: 10px;
-  top: 50%;
-  left: 10px;
+
+  /* outer shadows  (note the rgba is red, green, blue, alpha) */
+  -webkit-box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: 0px 1px 6px rgba(23, 69, 88, .5);
+
+  /* rounded corners */
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 7px;
+  border-radius: 7px;
+
+  /* gradients */
+  background: -webkit-gradient(linear, left top, left bottom,
+  color-stop(0%, white), color-stop(15%, white), color-stop(100%, #D7E9F5));
+  background: -moz-linear-gradient(top, white 0%, white 55%, #D5E4F3 130%);
+  top: 10px;
+  left: 70%;
   z-index: 99;
 }
 
-#autocomplete {
-  position: relative;
-  width: 100%;
-  left: 0px;
-  top: 0px;
+.ui-autocomplete {
+  max-height: 100px;
+  overflow-y: auto;
+  /* prevent horizontal scrollbar */
+  overflow-x: hidden;
 }
 
-#autocomplete ul {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  list-style-type:none
+* html .ui-autocomplete {
+  height: 400px;
 }
 
 .suggestionBox {
@@ -49,4 +62,12 @@
 
 .suggestionBoxSelected {
     background-color: #ababab
+}
+
+.infowindow-element {
+  max-width: 250px;
+}
+
+.title-text {
+  font-size: 150%
 }

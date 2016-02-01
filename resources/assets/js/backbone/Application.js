@@ -7,7 +7,7 @@ jQuery(document).ready(function () {
         zoom: 11,
         center:  new google.maps.LatLng(37.793, -122.394),
         mapTypeId: google.maps.MapTypeId.ROADMAP,
-        // disable default UI and add an icon
+        disableDefaultUI: true
     };
 
     map = new google.maps.Map($('#map')[0], options);
@@ -17,8 +17,7 @@ jQuery(document).ready(function () {
     app.Suggestion = Backbone.Model.extend({
       defaults: {
         title: 'Unknown',
-        location: 'Location name unknown',
-        selected: false
+        location: 'Location name unknown'
       }
     });
 
@@ -28,10 +27,6 @@ jQuery(document).ready(function () {
       template: _.template('<%- title %> - <%- location %>'),
       initialize: function() {
         this.model.on('destroy', this.remove, this);
-        this.model.on('change:selected', this.setSelected, this);
-      },
-      setSelected: function() {
-        this.$el.toggleClass('suggestionBoxSelected', this.model.get('selected'));
       },
       render: function() {
         this.$el.html(this.template(this.model.toJSON()));
@@ -42,35 +37,6 @@ jQuery(document).ready(function () {
     app.Suggestions = Backbone.Collection.extend({
       initialize: function() {
         this.selected = null;
-      },
-      navigateUp: function() {
-        var index = this.indexOf(this.selected);
-        if(index < 0) {
-            return false;
-        }
-        if(index == 0) {
-            this.selected.set({ selected: false });
-            this.selected = null;
-        } else {
-            this.setSelected(this.at(index - 1));
-        }
-      },
-      navigateDown: function() {
-        if(this.length > 0 && this.selected == null) {
-            this.setSelected(this.at(0));
-        } else {
-          var index = this.indexOf(this.selected);
-          if(index < this.length - 1) {
-              this.setSelected(this.at(index + 1));
-          }
-        }
-      },
-      setSelected: function(suggestion) {
-        if(this.selected != null) {
-          this.selected.set({ selected: false });
-        }
-        suggestion.set({ selected: true });
-        this.selected = suggestion;
       },
       url: function () {
         return '/search/autocomplete?query=' + $('#search-term').val();
@@ -86,53 +52,26 @@ jQuery(document).ready(function () {
       initialize: function() {
           this.suggestions = new app.Suggestions();
           this.suggestions.on('reset', this.addAll, this );
-          this.ignoreKey = false;
       },
       events: {
           "input #search-term": "updateItems",
-          'keydown :input': 'handleKeyPress',
-          'keypress :input': 'handleKeyPress',
-          'keyup :input': 'handleEnterUp'
-      },
-      handleKeyPress: function(e) {
-        if (e.keyCode == 40) {
-            this.suggestions.navigateDown();
-            return false;
-        }
-        if (e.keyCode == 38) {
-           this.suggestions.navigateUp();
-           return false;
-        }
-
-        return true;
-      },
-      handleEnterUp: function(e) {
-        console.log('enterup');
-        if(e.keyCode == 13) {
-          this.suggestions.reset();
-
-          if(this.suggestions.selected != null) {
-            var term = this.suggestions.selected.get('title');
-            $('#search-term').val( term );
-
-            console.log('fetching results from ssdfd');
-            app.resultsView.updateItems();
-          }
-        }
       },
       updateItems: function () {
           this.suggestions.fetch();
       },
-      addOne: function(suggestion) {
-        var view = new app.SuggestionView({model: suggestion});
-        this.$el.find('ul').append(view.render().el);
-      },
       addAll: function () {
-        this.$el.find('ul').empty();
-        this.suggestions.each( $.proxy( this.addOne, this ) );
-      },
-      render: function (suggestions) {
+        var autocomplete = [];
+        this.suggestions.each(function(suggestion) {
+          autocomplete.push(suggestion.get('title'));
+        });
 
+        $('#search-term').autocomplete({
+          source: autocomplete,
+          select: function(event, ui) {
+             $(this).val(ui.item.value);
+             app.resultsView.updateItems();
+           }
+        });
       }
     });
 
@@ -165,18 +104,6 @@ jQuery(document).ready(function () {
         this.map = options.map;
         this.model = options.model;
 
-        // Move to a better place
-        var actorList = '<ul>';
-        actorList += '<li>' + this.model.get('actor_1') + '</li>';
-        actorList += '<li>' + this.model.get('actor_2') + '</li>';
-        actorList += '<li>' + this.model.get('actor_3') + '</li>';
-        actorList += '</ul>';
-
-        var markerInfo = '<br />' +
-                    '<p style="float: center"><b>' + this.model.get('location') + '</b></p><br />' +
-                    '<p><b>Fun Facts:</b><br />' + this.model.get('facts') + '<br /><br />' +
-                    '<p><b>Actors:</b></p>' + actorList;
-
 
         var geocodeInfo = this.model.get('geocode_information');
         if(geocodeInfo) {
@@ -184,7 +111,8 @@ jQuery(document).ready(function () {
               map: this.map,
               position: new google.maps.LatLng(geocodeInfo.latitude, geocodeInfo.longitude),
               animation: google.maps.Animation.DROP,
-              info: markerInfo
+              info: this.buildMarkerInfo(),
+              icon: '../img/film.png'
           });
 
           this.marker.infowindow = new google.maps.InfoWindow({
@@ -197,6 +125,12 @@ jQuery(document).ready(function () {
           this.model.on('remove', this.removeMarker, this);
         }
       },
+      buildMarkerInfo: function() {
+        var modelJson = this.model.toJSON();
+        return this.markerInfoTemplate(modelJson) + this.actorList(modelJson);
+      },
+      actorList : _.template($('#actor-list').html()),
+      markerInfoTemplate: _.template($('#marker-info').html()),
       hidePopover : function() {
         this.infowindow.close();
       },
@@ -239,20 +173,18 @@ jQuery(document).ready(function () {
         });
         this.results.remove(remove);
 
-        console.log('fetching results');
         this.results.fetch();
       },
       updateMovieInfoWindow: function () {
         var info = this.results.at(0);
 
-        console.log(info);
         $('#results-for').html(this.buildMovieInfo(info));
+        $('#results-for').css('display', 'inline');
 
         this.centerMapOnMarkers();
       },
       buildMovieInfo: function (info) {
-        return '<b>Movie Info</b><br /><br />' +
-                '<b>Title:</b> ' + info.get('title') + ' <br /> ' +
+        return '<b class="title-text">' + info.get('title') + '</b><br /><br />' +
                 '<b>Production Company:</b> ' + info.get('production_company') + ' <br />' +
                 '<b>Release Year:</b> ' + info.get('release_year') + ' <br />' +
                 '<b>Distributor:</b> ' + info.get('distributor') + ' <br />' +
@@ -277,7 +209,9 @@ jQuery(document).ready(function () {
       }
     });
 
+
     app.autocompleteView = new app.AutocompleteView();
     app.resultsView = new app.ResultsView({ map: map });
+
 
 });

@@ -61,7 +61,7 @@ class FilmingLocationsController extends Controller
     $titles = FilmingLocation::select('title', 'location')
                 ->where('title', 'LIKE', "%$query%")
                 ->orWhere('location', 'LIKE', "%$query%")
-                ->limit(10)
+                ->groupBy('title')
                 ->get();
 
     $autocompleteResponse = new AutocompleteResponse($titles->toArray());
