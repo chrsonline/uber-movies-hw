@@ -4,6 +4,26 @@ This is a simple web app that let's you search for movie filming locations in th
 
 The project is currently hosted on an Amazon EC2 instance [here](http://amazon.com).
 
+## Problem statement
+
+SF Movies
+
+Create a service that shows on a map where movies have been filmed in San Francisco. The user should be able to filter the view using autocompletion search.
+
+The data is available on DataSF: Film Locations.
+
+More information on the problem statement can be seen [here](https://github.com/uber/coding-challenge-tools/blob/master/coding_challenge.md).
+
+##### Deliverables
+
+• A	text	description	of	the	use	cases	your	solution	addresses.
+
+• Block	diagram of	the	design.
+
+• Code	for	the	solution,	including	build	&	test	instructions.
+
+• Description	of	future	enhancements	to	make	the	application	more	useful.
+
 
 ## Use cases this solution addresses
 
@@ -20,23 +40,19 @@ The project is currently hosted on an Amazon EC2 instance [here](http://amazon.c
     ```json
     {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "id": "http://jsonschema.net",
+  "title": "Suggestions",
   "type": "object",
   "properties": {
     "suggestions": {
-      "id": "http://jsonschema.net/suggestions",
       "type": "array",
       "items": [
         {
-          "id": "http://jsonschema.net/suggestions/0",
           "type": "object",
           "properties": {
             "title": {
-              "id": "http://jsonschema.net/suggestions/0/title",
               "type": "string"
             },
             "location": {
-              "id": "http://jsonschema.net/suggestions/0/location",
               "type": "string"
             }
           },
@@ -77,102 +93,57 @@ The project is currently hosted on an Amazon EC2 instance [here](http://amazon.c
     ```json
     {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "id": "http://jsonschema.net",
+  "title": "Suggestions",
   "type": "object",
   "properties": {
     "results": {
-      "id": "http://jsonschema.net/results",
       "type": "array",
       "items": {
-        "id": "http://jsonschema.net/results/0",
         "type": "object",
         "properties": {
-          "id": {
-            "id": "http://jsonschema.net/results/0/id",
-            "type": "integer"
-          },
           "title": {
-            "id": "http://jsonschema.net/results/0/title",
             "type": "string"
           },
           "release_year": {
-            "id": "http://jsonschema.net/results/0/release_year",
             "type": "string"
           },
           "location": {
-            "id": "http://jsonschema.net/results/0/location",
             "type": "string"
           },
           "facts": {
-            "id": "http://jsonschema.net/results/0/facts",
             "type": "string"
           },
           "production_company": {
-            "id": "http://jsonschema.net/results/0/production_company",
             "type": "string"
           },
           "distributor": {
-            "id": "http://jsonschema.net/results/0/distributor",
             "type": "string"
           },
           "director": {
-            "id": "http://jsonschema.net/results/0/director",
             "type": "string"
           },
           "writer": {
-            "id": "http://jsonschema.net/results/0/writer",
             "type": "string"
           },
           "actor_1": {
-            "id": "http://jsonschema.net/results/0/actor_1",
             "type": "string"
           },
           "actor_2": {
-            "id": "http://jsonschema.net/results/0/actor_2",
             "type": "string"
           },
           "actor_3": {
-            "id": "http://jsonschema.net/results/0/actor_3",
             "type": "string"
           },
           "misc": {
-            "id": "http://jsonschema.net/results/0/misc",
             "type": "string"
-          },
-          "created_at": {
-            "id": "http://jsonschema.net/results/0/created_at",
-            "type": "string"
-          },
-          "updated_at": {
-            "id": "http://jsonschema.net/results/0/updated_at",
-            "type": "string"
-          },
+          }
           "geocode_information": {
-            "id": "http://jsonschema.net/results/0/geocode_information",
             "type": "object",
             "properties": {
-              "id": {
-                "id": "http://jsonschema.net/results/0/geocode_information/id",
-                "type": "integer"
-              },
-              "filming_location_id": {
-                "id": "http://jsonschema.net/results/0/geocode_information/filming_location_id",
-                "type": "string"
-              },
               "latitude": {
-                "id": "http://jsonschema.net/results/0/geocode_information/latitude",
                 "type": "string"
               },
               "longitude": {
-                "id": "http://jsonschema.net/results/0/geocode_information/longitude",
-                "type": "string"
-              },
-              "created_at": {
-                "id": "http://jsonschema.net/results/0/geocode_information/created_at",
-                "type": "string"
-              },
-              "updated_at": {
-                "id": "http://jsonschema.net/results/0/geocode_information/updated_at",
                 "type": "string"
               }
             }
@@ -192,14 +163,10 @@ The project is currently hosted on an Amazon EC2 instance [here](http://amazon.c
           "actor_2",
           "actor_3",
           "misc",
-          "created_at",
-          "updated_at",
           "geocode_information"
         ]
       },
-      "required": [
-        "0"
-      ]
+      "required": []
     }
   },
   "required": [
@@ -252,3 +219,6 @@ Simply run `server/setup.md` and a local web server should start at [http://loca
 [Note: This server should never be used outside of local development.]
 
 For detailed setup instructions or to host the application on a server please refer to the [Installation notes](docs/installation.md) section.
+
+
+### Future enhancements
