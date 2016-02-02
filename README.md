@@ -32,7 +32,8 @@ This web appplication addresses the 4 use cases outlined below.
 1. **Request suggestions** - User requests suggestions for matching text based on an input query.
   * A request is made to the Film Locations API via a GET request to `search/autocomplete` with the users input as they type.
 
-    * Details of the request/response specification reside in the [**API Documentation**](docs/locations-api-response-schema.md#autocomplete-suggestions).
+    * Request/response details available in [**the API Documentation**](docs/locations-api-response-schema.md#autocomplete-suggestions).
+
 
   * The API will perform a textual search of movies and locations returning whole or partial matches of `query`. Search is to be performed in a case and diacritic insensitive manner.
 
@@ -48,7 +49,8 @@ This web appplication addresses the 4 use cases outlined below.
 
   * A request is made to the Film Locations API via a GET request to `search`. The API will perform a textual search of movie titles returning whole matches of `query`. Search is to be performed in a case and diacritic insensitive manner.
 
-    * Details of the request/response specification reside in the [**API Documentation**](docs/locations-api-response-schema.md#locations-search).
+    * Request/response details available in [**the API Documentation**](docs/locations-api-response-schema.md#locations-search).
+
 
   * If no movies are found the API will respond with an empty `results` array.
 
