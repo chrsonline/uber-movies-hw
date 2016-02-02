@@ -68,49 +68,52 @@ This web appplication addresses the 4 use cases outlined below.
 
 ##### Backend
 
-PHP - I chose PHP based on my experience with the language and frameworks.
-Laravel - PHP Framework for MVC, database access, event triggers and console commands
-Google Places API - For geocoding locations to displayable coordinates.
-PHPUnit - Unit testing framework for the backend application.
-Gulp.js - Build system for compiling sass and javascript files.
+- PHP - I chose PHP based on my experience with the language and frameworks.
+- Laravel - PHP Framework for MVC, database access, event triggers and console commands
+- Google Places API - For geocoding locations to displayable coordinates.
+- PHPUnit - Unit testing framework for the backend application.
+- Gulp.js - Build system for compiling sass and javascript files.
 
 ##### Frontend
 
-Google maps API
-Backbone.js - Framework for front-end data models and related data views.
-underscore.js - Templating language for rendering HTML views on the page.
-jQuery - DOM manipulation and events.
+- Backbone.js - Framework for front-end data models and related data views.
+- Google maps API - For display of the San Francisco area, markers and information popovers.
+- underscore.js - Templating language for rendering HTML views on the page.
+- jQuery - For performing DOM manipulations and generating events.
 
-See the [architecture diagram](docs/architecture-diagram.png) here for an overview of the platform and core abstractions that are used.
+See the [architecture diagram](docs/architecture-diagram.png) for an overview of the platform and core abstractions that are used.
 
 
 ##<a name="installation"></a>Installation
 
-You should be able to spin up a local php webserver supporting the needed functionality if you have the following dependencies installed:
+You should be able to spin up a local php webserver supporting the needed functionality if you have the following dependencies installed.
 
 - node/npm
-  - `brew install node` (osx)
-  - `sudo apt-get update && apt-get install nodejs` (ubuntu)
 - php5.6+
-  - `brew install php56` (osx)
-  - `sudo apt-get update && apt-get install php5 php5-mysql` (ubuntu)
 - sqlite3
-  - `sqlite3 libsqlite3-dev` (ubuntu)
-  - `brew install sqlite3` (osx although it should come pre-installed)
 - curl
-  - `curl`
-  - `brew install curl` (osx although it should come pre-installed)
 
-Run:
+Use the following prerequisite installation for your operating system:
+- OSX setup instructions (requires [homebrew](http://brew.sh/)):
+  ```sh
+  brew install node php56 sqlite3 curl
+  ```
 
-```
-git clone git@github.com:/riguy724/uber-movies-hw
-server/setup.sh
-```
+- Ubuntu 14.04 setup instructions:
+  ```sh
+  sudo apt-get update
+  sudo apt-get install nodejs php5 php5-mysql sqlite3 sqlite3-dev curl
+  ```
 
-from the root directory and a local web server should start at [http://localhost:8000](http://localhost:8000).
+Once dependencies are installed, run the following to start a local web server hosting the application, it should be available at [http://localhost:8000](http://localhost:8000).
+  ```sh
+  git clone git@github.com:/riguy724/uber-movies-hw
+  cd uber-movies-hw
+  server/setup.sh
+  ```
 
-It will be backed by a local sqlite database with the filming locations and geocode information already present. Be aware that text searches in sqlite are rather slow, so there may be some delay in the retrieval of data from the API.
+
+This local environment will be backed by a local sqlite database with the filming locations and geocode information already present. Be aware that text searches in sqlite are rather slow, so there may be some delay in the retrieval of data from the API.
 
 [Note: This server should never be used outside of local development.]
 
@@ -125,4 +128,4 @@ For detailed setup instructions or to host the application on a server please re
 
 * Paginated collection browsing, following better restful document access for each location, movie, actor.
 
-* Allowing search by related records (actors, movies etc...) would require that the dataset be better organized.
+* Allowing search by related records (actors, movies etc...) would require that the dataset be better organized or as previously mentioned a document data store + inverted index.
