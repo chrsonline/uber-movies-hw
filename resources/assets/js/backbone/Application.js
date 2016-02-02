@@ -178,20 +178,17 @@ jQuery(document).ready(function () {
       updateMovieInfoWindow: function () {
         var info = this.results.at(0);
 
-        $('#results-for').html(this.buildMovieInfo(info));
-        $('#results-for').css('display', 'inline');
+        if(info) {
+          $('#results-for').css('display', 'inline');
+          $('#results-for').html(this.movieInfoTemplate(info.toJSON()));
+        } else {
+          $('#results-for').css('display', 'inline');
+          $('#results-for').html('<b class="title-text">No results found!</b>');
+        }
 
         this.centerMapOnMarkers();
       },
-      buildMovieInfo: function (info) {
-        return '<b class="title-text">' + info.get('title') + '</b><br /><br />' +
-                '<b>Production Company:</b> ' + info.get('production_company') + ' <br />' +
-                '<b>Release Year:</b> ' + info.get('release_year') + ' <br />' +
-                '<b>Distributor:</b> ' + info.get('distributor') + ' <br />' +
-                '<b>Director:</b> ' + info.get('director') + ' <br />' +
-                '<b>Writer:</b> ' + info.get('writer');
-
-      },
+      movieInfoTemplate: _.template($('#movie-search-information').html()),
       centerMapOnMarkers: function () {
         var bounds = new google.maps.LatLngBounds();
 
@@ -213,5 +210,13 @@ jQuery(document).ready(function () {
     app.autocompleteView = new app.AutocompleteView();
     app.resultsView = new app.ResultsView({ map: map });
 
+    $('#search-term').keydown(
+      function(e) {
+        if(e.keyCode == 13) {
+          $('#search-term').autocomplete('close');
+          app.resultsView.updateItems();
+        }
+      }
+    );
 
 });

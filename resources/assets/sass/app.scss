@@ -46,7 +46,8 @@
 }
 
 .ui-autocomplete {
-  max-height: 100px;
+  max-height: 400px;
+  width: 300px;
   overflow-y: auto;
   /* prevent horizontal scrollbar */
   overflow-x: hidden;
@@ -54,6 +55,7 @@
 
 * html .ui-autocomplete {
   height: 400px;
+  width: 300px;
 }
 
 .suggestionBox {
