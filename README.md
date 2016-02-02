@@ -18,13 +18,13 @@ More information on the problem statement can be seen [here](https://github.com/
 
 * [Architecture design diagram](docs/architecture-diagram.png)
 
-* Application and [installation instructions](#installation)
+* Application and [Installation instructions](#installation)
 
 * [Future enhancements](#enhancements)
 
 ----
 
-## <a name="use-cases"></a> Use cases this solution addresses
+##<a name="use-cases"></a> Use cases this solution addresses
 
 This web appplication addresses the 4 use cases outlined below.
 
@@ -84,7 +84,7 @@ jQuery - DOM manipulation and events.
 See the [architecture diagram](docs/architecture-diagram.png) here for an overview of the platform and core abstractions that are used.
 
 
-## <a name="installation"></a> Installation
+##<a name="installation"></a> Installation
 
 You should be able to spin up a local php webserver supporting the needed functionality if you have the following dependencies installed:
 
