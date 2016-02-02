@@ -43,15 +43,11 @@ This web appplication addresses the 4 use cases outlined below.
   * Postconditions:
     - The user has a list of suggested results populated and displayed based on their current input.
 
----
-
 2. **Select suggestion** - A user chooses a suggested search term to initiate a search on the selected term.
   * From a set of displayed suggestions, the search term matching a particular movie title is populated in to the search box.
 
   * Postconditions:
     - The search box is populated with a selected search suggestion and a search initiated.
-
----
 
 3. **Request locations** - User submits an API request to search for a movie title
   * From the search box a user submits an API request to retrieve corresponding movie locations for the selected title.
@@ -69,8 +65,6 @@ This web appplication addresses the 4 use cases outlined below.
 
   * Postconditions:
     - Movie details are viewable in an information box and location pins are displayed on the map for the initiating search query.
-
----
 
 4. **View location** - User mouses over a display pin on the map and a popup is temporarily displayed with more information.
   * When the cursor is hovered above a displayed location, a popup will appear with more information.
