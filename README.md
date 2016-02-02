@@ -4,28 +4,27 @@ This is a simple web app that let's you search for movie filming locations in th
 
 The project is currently hosted on an Amazon EC2 instance [here](http://amazon.com).
 
-## Problem statement
-
-SF Movies
+### Problem statement
 
 Create a service that shows on a map where movies have been filmed in San Francisco. The user should be able to filter the view using autocompletion search.
 
-The data is available on DataSF: Film Locations.
+The data is available on [DataSF: Film Locations](https://data.sfgov.org/Culture-and-Recreation/Film-Locations-in-San-Francisco/yitu-d5am).
 
 More information on the problem statement can be seen [here](https://github.com/uber/coding-challenge-tools/blob/master/coding_challenge.md).
 
-##### Deliverables
+#### Deliverables
 
-• A	text	description	of	the	use	cases	your	solution	addresses.
+* [Use cases](#use-cases)
 
-• Block	diagram of	the	design.
+* [Architecture design diagram](docs/architecture-diagram.png)
 
-• Code	for	the	solution,	including	build	&	test	instructions.
+* Application and [installation instructions](#installation)
 
-• Description	of	future	enhancements	to	make	the	application	more	useful.
+* [Future enhancements](#enhancements)
 
+----
 
-## Use cases this solution addresses
+## <a name="use-cases"></a> Use cases this solution addresses
 
 This web appplication addresses the 4 use cases outlined below.
 
@@ -65,7 +64,7 @@ This web appplication addresses the 4 use cases outlined below.
 
   * Any portions of the data not returned, or returned empty should not have an effect on usability.
 
-### Technology used
+## Technology used and design decisions
 
 ##### Backend
 
@@ -85,7 +84,7 @@ jQuery - DOM manipulation and events.
 See the [architecture diagram](docs/architecture-diagram.png) here for an overview of the platform and core abstractions that are used.
 
 
-## Installation
+## <a name="installation"></a> Installation
 
 You should be able to spin up a local php webserver supporting the needed functionality if you have the following dependencies installed:
 
@@ -118,7 +117,7 @@ It will be backed by a local sqlite database with the filming locations and geoc
 
 For detailed setup instructions or to host the application on a server please refer to the [Installation notes](docs/installation.md) section.
 
-### Future enhancements
+## <a name="enhancements"></a> Future enhancements
 
 * Improved search functionality for any field, might require using something like lucene as a document store to improve full text search on an entire records, so as not to have to specify every field in a mysql "like" query.
 
