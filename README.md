@@ -18,7 +18,7 @@ More information on the problem statement can be seen [here](https://github.com/
 
 * [Architecture design diagram](docs/architecture-diagram.png)
 
-* Application and [Installation instructions](#installation)
+* [Hosted Application](http://amazon.com) and [Installation instructions](#installation)
 
 * [Future enhancements](#enhancements)
 
@@ -141,3 +141,5 @@ For detailed setup instructions or to host the application on a server please re
 * Paginated collection browsing, following better restful document access for each location, movie, actor.
 
 * Allowing search by related records (actors, movies etc...) would require that the dataset be better organized or as previously mentioned a document data store + inverted index.
+
+* Shareable links for searches based on URL parsing, backbone can do this easily with its router.
