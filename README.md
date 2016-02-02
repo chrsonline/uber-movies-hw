@@ -123,12 +123,14 @@ Use the following prerequisite installation instructions for your operating syst
   sudo apt-get install nodejs php5 php5-mysql sqlite3 sqlite3-dev curl
   ```
 
-Once dependencies are installed, run the following to start a local web server hosting the application, it should be available at [http://localhost:8000](http://localhost:8000).
+Once dependencies are installed, run the following to start a local web server hosting the application.
   ```sh
   git clone git@github.com:/riguy724/uber-movies-hw
   cd uber-movies-hw
   server/setup.sh
   ```
+
+If all went well, the application should be running and locally accessible by navigating to [http://localhost:8000](http://localhost:8000).
 
 This local environment will be backed by a local sqlite database with the filming locations and geocode information already present. Be aware that text searches in sqlite are rather slow, so there may be some delay in the retrieval of data from the API.
 
