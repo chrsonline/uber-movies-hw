@@ -29,12 +29,6 @@ More information on the problem statement can be seen [here](https://github.com/
 This web appplication addresses the 4 use cases outlined below.
 
 1. **Request suggestions** - User requests suggestions for matching text based on an input query.
-  * Actors:
-    - The user interacting with the UI
-    - The client application to process input
-    - The API to make requests
-
-
   * A request is made to the Film Locations API via a GET request to `search/autocomplete` with the users input as they type.
 
     * Request/response details available in [**the API Documentation**](docs/locations-api-response-schema.md#autocomplete-suggestions).
