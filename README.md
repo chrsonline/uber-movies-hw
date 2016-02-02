@@ -24,7 +24,7 @@ More information on the problem statement can be seen [here](https://github.com/
 
 ----
 
-##<a name="use-cases"></a> Use cases this solution addresses
+##<a name="use-cases"></a>Use cases this solution addresses
 
 This web appplication addresses the 4 use cases outlined below.
 
@@ -84,7 +84,7 @@ jQuery - DOM manipulation and events.
 See the [architecture diagram](docs/architecture-diagram.png) here for an overview of the platform and core abstractions that are used.
 
 
-##<a name="installation"></a> Installation
+##<a name="installation"></a>Installation
 
 You should be able to spin up a local php webserver supporting the needed functionality if you have the following dependencies installed:
 
@@ -117,7 +117,7 @@ It will be backed by a local sqlite database with the filming locations and geoc
 
 For detailed setup instructions or to host the application on a server please refer to the [Installation notes](docs/installation.md) section.
 
-## <a name="enhancements"></a> Future enhancements
+## <a name="enhancements"></a>Future enhancements
 
 * Improved search functionality for any field, might require using something like lucene as a document store to improve full text search on an entire records, so as not to have to specify every field in a mysql "like" query.
 
