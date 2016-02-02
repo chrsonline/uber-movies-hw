@@ -29,6 +29,12 @@ More information on the problem statement can be seen [here](https://github.com/
 This web appplication addresses the 4 use cases outlined below.
 
 1. **Request suggestions** - User requests suggestions for matching text based on an input query.
+  * Actors:
+    - The user interacting with the UI
+    - The client application to process input
+    - The API to make requests
+
+
   * A request is made to the Film Locations API via a GET request to `search/autocomplete` with the users input as they type.
 
     * Request/response details available in [**the API Documentation**](docs/locations-api-response-schema.md#autocomplete-suggestions).
@@ -36,12 +42,18 @@ This web appplication addresses the 4 use cases outlined below.
 
   * The API will perform a textual search of movies and locations returning whole or partial matches of `query`. Search is to be performed in a case and diacritic insensitive manner.
 
- * On a success response from the server, suggestions will autocomplete a drop down list with the related movie title that initiate a search for the movie when selected.
+  * On a success response from the server, suggestions will autocomplete a drop down list with the related movie title that initiate a search for the movie when selected.
 
- * If no matching suggestions can be returned, the user will receive an array of empty suggestions and no autocomplete suggestions are displayed.
+  * If no matching suggestions can be returned, the user will receive an array of empty suggestions and no autocomplete suggestions are displayed.
+
+  * Postconditions:
+    - The user has a list of suggested results populated and displayed based on their current input.
 
 2. **Select suggestion** - A user chooses a suggested search term to initiate a search on the selected term.
   * From a set of displayed suggestions, the search term matching a particular movie title is populated in to the search box.
+
+  * Postconditions:
+    - The search box is populated with a selected search suggestion and a search initiated.
 
 3. **Request locations** - User submits an API request to search for a movie title
   * From the search box a user submits an API request to retrieve corresponding movie locations for the selected title.
@@ -57,12 +69,18 @@ This web appplication addresses the 4 use cases outlined below.
 
   * The location results will be displayed on the map, with the ability to view corresponding location names, fun facts, and names of actors who participated in the shoot.
 
+  * Postconditions:
+    - Movie details are viewable in an information box and location pins are displayed on the map for the initiating search query.
+
 4. **View location** - User mouses over a display pin on the map and a popup is temporarily displayed with more information.
   * When the cursor is hovered above a displayed location, a popup will appear with more information.
 
   * When the cursor moves away from hovering, the popup will disappear.
 
   * Any portions of the data not returned, or returned empty should not have an effect on usability.
+
+  * Postconditions:
+    - Location name, facts and actors are displayed in an info window over the corresponding pin on the map.
 
 ## Technology used and design decisions
 
@@ -93,7 +111,7 @@ You should be able to spin up a local php webserver supporting the needed functi
 - sqlite3
 - curl
 
-Use the following prerequisite installation for your operating system:
+Use the following prerequisite installation instructions for your operating system:
 - OSX setup instructions (requires [homebrew](http://brew.sh/)):
   ```sh
   brew install node php56 sqlite3 curl
@@ -112,11 +130,9 @@ Once dependencies are installed, run the following to start a local web server h
   server/setup.sh
   ```
 
-
 This local environment will be backed by a local sqlite database with the filming locations and geocode information already present. Be aware that text searches in sqlite are rather slow, so there may be some delay in the retrieval of data from the API.
 
 [Note: This server should never be used outside of local development.]
-
 
 For detailed setup instructions or to host the application on a server please refer to the [Installation notes](docs/installation.md) section.
 
