@@ -13,7 +13,7 @@ The API will perform a textual search of movies and locations returning whole or
 
 
 ##### Response
-- Schema:
+* Schema:
   ```json
   {
     "$schema": "http://json-schema.org/draft-04/schema#",
@@ -59,7 +59,7 @@ The API will perform a textual search of movie titles returning whole matches of
 
 
 ##### Response
-- Schema:
+* Schema:
   ```json
   {
     "$schema": "http://json-schema.org/draft-04/schema#",
