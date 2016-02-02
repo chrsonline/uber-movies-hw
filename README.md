@@ -34,7 +34,7 @@ More information on the problem statement can be seen [here](https://github.com/
 
       - `query` - The text to match in the search
 
-  * The API will perform a textual search of movies and locations returning whole or partial matches of `query`. Search is to be performed in a case and diacritic insensitive manner.
+  * The API will perform a textual search of movies and locations returning whole or partial matches of `query`. Search is to be performed in a case and diacritic insensitive manner. Details of the request/response specification can be seen [here](docs/locations-api-response-schema.md#autocomplete-suggestions).
 
   * A response is given to the user of the following format:
     ```json
@@ -85,9 +85,9 @@ More information on the problem statement can be seen [here](https://github.com/
 
     **Required Parameters**
 
-      - `query` - The movie title
+      - `query` - The movie title.
 
-  * The API will perform a textual search of movie titles returning whole matches of `query`. Search is to be performed in a case and diacritic insensitive manner.
+  * The API will perform a textual search of movie titles returning whole matches of `query`. Search is to be performed in a case and diacritic insensitive manner. Details of the request/response specification can be seen [here](docs/locations-api-response-schema.md#locations-search).
 
   * A response is given to the user of the following format:
     ```json
