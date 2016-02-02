@@ -1,7 +1,5 @@
 ## Film locations API request/response specification
 
---------
-
 ### <a name="autocomplete-suggestions"></a> Autocomplete search
 The API will perform a textual search of movies and locations returning whole or partial matches of `query`.
 

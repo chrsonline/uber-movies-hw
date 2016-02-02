@@ -27,153 +27,28 @@ More information on the problem statement can be seen [here](https://github.com/
 
 ## Use cases this solution addresses
 
-1. Request suggestions - User requests suggestions for matching text based on an input query.
-  * A request is made to the Film Locations API via a GET request to `search/autocomplete`, providing the following parameter set:
+This web appplication addresses the 4 use cases outlined below.
 
-    **Required Parameters**
+1. **Request suggestions** - User requests suggestions for matching text based on an input query.
+  * A request is made to the Film Locations API via a GET request to `search/autocomplete` with the users input as they type.
 
-      - `query` - The text to match in the search
+    * Details of the request/response specification reside in the [**API Documentation**](docs/locations-api-response-schema.md#autocomplete-suggestions).
 
-  * The API will perform a textual search of movies and locations returning whole or partial matches of `query`. Search is to be performed in a case and diacritic insensitive manner. Details of the request/response specification can be seen [here](docs/locations-api-response-schema.md#autocomplete-suggestions).
+  * The API will perform a textual search of movies and locations returning whole or partial matches of `query`. Search is to be performed in a case and diacritic insensitive manner.
 
-  * A response is given to the user of the following format:
-    ```json
-    {
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "title": "Suggestions",
-  "type": "object",
-  "properties": {
-    "suggestions": {
-      "type": "array",
-      "items": [
-        {
-          "type": "object",
-          "properties": {
-            "title": {
-              "type": "string"
-            },
-            "location": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "title",
-            "location"
-          ]
-        }
-      ],
-      "required": []
-    }
-  },
-  "required": [
-    "suggestions"
-  ]
-}
-    ```
-
- * Suggestions will autocomplete a drop down with the related movie title that initiate a search for the movie when selected.
+ * On a success response from the server, suggestions will autocomplete a drop down list with the related movie title that initiate a search for the movie when selected.
 
  * If no matching suggestions can be returned, the user will receive an array of empty suggestions and no autocomplete suggestions are displayed.
 
-2. Select suggestion - A user chooses a suggested search term to initiate a search on the selected term.
+2. **Select suggestion** - A user chooses a suggested search term to initiate a search on the selected term.
   * From a set of displayed suggestions, the search term matching a particular movie title is populated in to the search box.
 
-3. Request locations - User submits an API request to search for a movie title
+3. **Request locations** - User submits an API request to search for a movie title
   * From the search box a user submits an API request to retrieve corresponding movie locations for the selected title.
 
-  * A request is made to the Film Locations API via a GET request to `search`, providing the following parameter set:
+  * A request is made to the Film Locations API via a GET request to `search`. The API will perform a textual search of movie titles returning whole matches of `query`. Search is to be performed in a case and diacritic insensitive manner.
 
-    **Required Parameters**
-
-      - `query` - The movie title.
-
-  * The API will perform a textual search of movie titles returning whole matches of `query`. Search is to be performed in a case and diacritic insensitive manner. Details of the request/response specification can be seen [here](docs/locations-api-response-schema.md#locations-search).
-
-  * A response is given to the user of the following format:
-    ```json
-    {
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "title": "Suggestions",
-  "type": "object",
-  "properties": {
-    "results": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "title": {
-            "type": "string"
-          },
-          "release_year": {
-            "type": "string"
-          },
-          "location": {
-            "type": "string"
-          },
-          "facts": {
-            "type": "string"
-          },
-          "production_company": {
-            "type": "string"
-          },
-          "distributor": {
-            "type": "string"
-          },
-          "director": {
-            "type": "string"
-          },
-          "writer": {
-            "type": "string"
-          },
-          "actor_1": {
-            "type": "string"
-          },
-          "actor_2": {
-            "type": "string"
-          },
-          "actor_3": {
-            "type": "string"
-          },
-          "misc": {
-            "type": "string"
-          },
-          "geocode_information": {
-            "type": "object",
-            "properties": {
-              "latitude": {
-                "type": "string"
-              },
-              "longitude": {
-                "type": "string"
-              }
-            }
-          }
-        },
-        "required": [
-          "id",
-          "title",
-          "release_year",
-          "location",
-          "facts",
-          "production_company",
-          "distributor",
-          "director",
-          "writer",
-          "actor_1",
-          "actor_2",
-          "actor_3",
-          "misc",
-          "geocode_information"
-        ]
-      },
-      "required": []
-    }
-  },
-  "required": [
-    "results"
-  ]
-}
-    ```
+    * Details of the request/response specification reside in the [**API Documentation**](docs/locations-api-response-schema.md#locations-search).
 
   * If no movies are found the API will respond with an empty `results` array.
 
@@ -181,7 +56,7 @@ More information on the problem statement can be seen [here](https://github.com/
 
   * The location results will be displayed on the map, with the ability to view corresponding location names, fun facts, and names of actors who participated in the shoot.
 
-4. View location - User mouses over a display pin on the map and a popup is temporarily displayed with more information.
+4. **View location** - User mouses over a display pin on the map and a popup is temporarily displayed with more information.
   * When the cursor is hovered above a displayed location, a popup will appear with more information.
 
   * When the cursor moves away from hovering, the popup will disappear.
@@ -243,8 +118,10 @@ For detailed setup instructions or to host the application on a server please re
 
 ### Future enhancements
 
-Improved search functionality for any field, might require using something like lucene as a document store to improve full text search on an entire records, so as not to have to specify every field in a mysql "like" query.
+* Improved search functionality for any field, might require using something like lucene as a document store to improve full text search on an entire records, so as not to have to specify every field in a mysql "like" query.
 
-Improved data validation and error schema.  There is some allowance for expections being thrown
-Paginated collection browsing, following better restful document access for each location, movie, actor.
-Allowing search by related records (actors, movies etc...) would require that the dataset be better organized.
+* Improved data validation and error schema.  There is some allowance for expections being thrown, but if this service were to be consumer or maintained for use as a maintained or publicly accessible API, there would need to be a lot of additional error handling and service specification.
+
+* Paginated collection browsing, following better restful document access for each location, movie, actor.
+
+* Allowing search by related records (actors, movies etc...) would require that the dataset be better organized.
