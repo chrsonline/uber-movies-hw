@@ -11,10 +11,6 @@ use App\Http\Response\AutocompleteResponse;
 use App\Http\Controllers\Controller;
 use App\FilmingLocation;
 
-
-
-use App\Events\NewLocationAdded;
-
 class FilmingLocationsController extends Controller
 {
   /**

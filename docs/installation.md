@@ -29,7 +29,7 @@ npm install
 
 In addition you must build the javascript and css files for distribution, this is managed via a [gulp](gulpjs.com) build.  This will build the files needed for the front-end in to their corresponding directories and files in the `public/` directory.
 
-`node_modules/.bin/gulp`
+`DISABLE_NOTIFIER=true node_modules/.bin/gulp`
 
 ### Running unit tests
 

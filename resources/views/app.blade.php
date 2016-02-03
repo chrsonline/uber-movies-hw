@@ -61,19 +61,19 @@
 			<b class="title-text"> <%= title %></b><br /><br />
 		<% } %>
 		<% if (production_company) { %>
-			<b>Production Company:</b><%= production_company %><br />
+			<b>Production Company: </b><%= production_company %><br />
 		<% } %>
 		<% if (release_year) { %>
-			<b>Release year:</b><%= release_year %><br />
+			<b>Release year: </b><%= release_year %><br />
 		<% } %>
 		<% if (distributor) { %>
-			<b>Distributor:</b><%= distributor %><br />
+			<b>Distributor: </b><%= distributor %><br />
 		<% } %>
 		<% if (director) { %>
-			<b>Director:</b><%= director %><br />
+			<b>Director: </b><%= director %><br />
 		<% } %>
 		<% if (writer) { %>
-			<b>Writer:</b><%= writer %><br />
+			<b>Writer: </b><%= writer %><br />
 		<% } %>
 	</script>
 </head>
