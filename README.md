@@ -2,7 +2,7 @@
 
 This is a simple web app that let's you search for movie filming locations in the San Francisco area.  Search results will auto complete for matching movie titles or filming location names.  After selecting a movie you'll see some information about the movie, as well as pins indicating locations where the movie was shot.  Mousing over a location will display a popover window with more information about that particular location.
 
-The project is currently hosted on an Amazon EC2 instance [here](http://amazon.com).
+The project is currently hosted on an Amazon EC2 instance [here](http://sfmovies.chrs.online).
 
 ### Problem statement
 
@@ -115,7 +115,9 @@ Use the following prerequisite installation instructions for your operating syst
 - Ubuntu 14.04 setup:
   ```sh
   sudo apt-get update
-  sudo apt-get install nodejs php5 php5-mysql sqlite3 libsqlite3-dev curl
+  sudo apt-get install -y build-essential php5 php5-sqlite sqlite3 libsqlite3-dev curl
+  curl -sL https://deb.nodesource.com/setup_5.x | sudo -E bash -
+  sudo apt-get update && apt-get install -y nodejs
   ```
 
 Once dependencies are installed, run the following to start a local web server hosting the application.

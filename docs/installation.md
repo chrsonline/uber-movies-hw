@@ -10,10 +10,16 @@ These instructions assume a clean installation of Ubuntu 14.04 server.
 
 ### Installing the code base
 
+sudo apt-get install git-core
+git clone git@github.com:/riguy724/uber-movies-hw.git
 
+enter a mysql root password for configuration
 ```
 sudo apt-get update
-sudo apt-get install nodejs php5 php5-mysql sqlite3 libsqlite3-dev curl mysql
+sudo apg-get install git-core
+sudo apt-get install build-essential php5 php5-mysql php5-sqlite sqlite3 libsqlite3-dev curl mysql-server
+curl -sL https://deb.nodesource.com/setup_5.x | sudo -E bash -
+sudo apt-get update && sudo apt-get install nodejs
 curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
 composer install
 npm install
@@ -38,7 +44,28 @@ The Laravel application configuration happens through environment variables.  Th
 Copy the .default file:
 `cp .env.default .env`
 
-Uncomment the lines in the `DB_` section to use mysql as your data store, and fill out the necessary values, your config should look like this when it's completed.  Make sure to leave the `APP_KEY` value blank, as Laravel will generate and update this value for us.
+Uncomment the lines in the `DB_` section to use mysql as your data store, and fill out the necessary values, your config should look like this when it's completed.  Make sure to leave the `APP_KEY` value blank, as Laravel will generate and update this value for us.  When you're finished your config should look like this:
+```
+APP_ENV=local
+APP_DEBUG=true
+APP_KEY=RaYOfYONEr1vmvLPHCESc2wU5pccPFyj
+
+# Specify sqlite as our default database for testing and quick setup.
+# DB_CONNECTION=sqlite
+
+# For using mysql uncomment the below configuration
+DB_CONNECTION=mysql
+DB_HOST=localhost
+DB_DATABASE=sfmovies
+DB_USERNAME=root
+DB_PASSWORD=password
+
+GOOGLE_PLACES_API_KEY=key
+
+CACHE_DRIVER=file
+SESSION_DRIVER=file
+QUEUE_DRIVER=sync
+```
 
 Now run `php artisan key:generate` to generate your `APP_KEY` value.
 
@@ -53,6 +80,9 @@ All application administration happens through the use of Laravel's Artisan cons
 For a particular command the `--help` option will display a description of the commands usage and available options.
 
 ##### Migrations and data loading
+
+To start create a database for your use (use your database name from the configuration file):
+`echo 'create database sfmovies' | mysql -uroot -p`
 
 First run the data migrations you need for the database schema:
 - `php artisan migrate:refresh`
@@ -71,4 +101,13 @@ Finally, kick off geocoding for the newly loaded data.  This will normally happe
 
 While you can use the build in PHP web server for hosting things, it's much better to set up apache or nginx to serve the application. There are many tutorial for configuring web servers out there, so we won't get in to this here, but in general the needed components for a given web server will be `mod_php` and `mod_rewrite` for the application to work.
 
-Just set the directory for servicing requests to the location of `public/` in this repository and you should be all set.
+You'll also need to give your web server's user read and write access to the `storage/` directory, or just set it to be world writeable:
+`chmod -R 777 storage`
+
+Once this is done, just set the directory for servicing requests to the location of `public/` in this repository and you should be all set.
+
+
+### Verify installation
+
+Navigate to the base URL and you should be able to see the server!
+To view server logs for debugging look in `storage/logs/laravel.log`.

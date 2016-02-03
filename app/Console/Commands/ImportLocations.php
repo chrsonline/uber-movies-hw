@@ -11,23 +11,26 @@ class ImportLocations extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'database:import-locations {data-file}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Import locations data and kick off geocoding.';
+
+    protected $geocoder;
 
     /**
      * Create a new command instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Geocoder $geocoder)
     {
         parent::__construct();
+        $this->geocoder = $geocoder;
     }
 
     /**
@@ -37,6 +40,6 @@ class ImportLocations extends Command
      */
     public function handle()
     {
-        //
+        $file = file_get_contents($this->argument('data-file'));
     }
 }
