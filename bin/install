@@ -1,0 +1,12 @@
+# Install necessary packages
+npm install
+
+# Install composer and
+curl -sS https://getcomposer.org/installer | php
+php composer.phar install
+
+php artisan key:generate
+
+node_modules/.bin/gulp
+
+vendor/bin/phpunit

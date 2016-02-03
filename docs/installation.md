@@ -10,27 +10,26 @@ These instructions assume a clean installation of Ubuntu 14.04 server.
 
 ### Installing the code base
 
-Install mysql
-- `sudo apt-get install mysql `
 
-Install composer
-- ` wat `
+```
+sudo apt-get update
+sudo apt-get install nodejs php5 php5-mysql sqlite3 libsqlite3-dev curl mysql
+curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
+composer install
+npm install
+```
 
-Install composer packages
-- `composer install`
+#### Building javascript and css
 
-Install node
-- ` wat `
+In addition you must build the javascript and css files for distribution, this is managed via a [gulp](gulpjs.com) build.  This will build the files needed for the front-end in to their corresponding directories and files in the `public/` directory.
 
-Install node packages
-- `npm install`
-
-Run build
-- `node_modules/.bin/gulp`
+`node_modules/.bin/gulp`
 
 ### Running unit tests
 
-- `vendor/bin/phpunit`
+To execute backend unit tests run:
+
+`vendor/bin/phpunit`
 
 ### Configuration
 
@@ -39,15 +38,9 @@ The Laravel application configuration happens through environment variables.  Th
 Copy the .default file:
 `cp .env.default .env`
 
-and minimally fill out the below keys based on your server's setup.
+Uncomment the lines in the `DB_` section to use mysql as your data store, and fill out the necessary values, your config should look like this when it's completed.  Make sure to leave the `APP_KEY` value blank, as Laravel will generate and update this value for us.
 
-```
-DB_CONNECTION=sqlite
-DB_CONNECTION=mysql (default)
-APP_KEY=
-```
-
-- `php artisan key:generate` - run to generate application key
+Now run `php artisan key:generate` to generate your `APP_KEY` value.
 
 You'll also need a google places API key to store geocoding information for the locations. You can request one for use [here](https://console.developers.google.com/apis/credentials). Just create a new project and select Google Places API.  Fill this out in your `.env` file as well for use in the application.
 
@@ -59,11 +52,20 @@ All application administration happens through the use of Laravel's Artisan cons
 
 For a particular command the `--help` option will display a description of the commands usage and available options.
 
-##### Loading data
+##### Migrations and data loading
 
+First run the data migrations you need for the database schema:
 - `php artisan migrate:refresh`
+
+Then import the data set from SFData:
+- `php artisan database:import-locations`
+
+[ Note: This operation is not idempotent, so only run it once! ]
+
+
+Finally, kick off geocoding for the newly loaded data.  This will normally happen when data is loaded to a running application, but for the initial data load we'll want to load it manually:
+
 - `php artisan locations:geocode`
-- `php artisan database:import`
 
 ### Web server
 

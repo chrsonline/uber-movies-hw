@@ -100,29 +100,36 @@ See the [architecture diagram](docs/architecture-diagram.png) for an overview of
 
 You should be able to spin up a local php webserver supporting the needed functionality if you have the following dependencies installed.
 
-- node/npm
+- node.js/npm (must be node version 5+)
 - php5.6+
 - sqlite3
 - curl
+- [homebrew](http://brew.sh/) (OSX only)
 
 Use the following prerequisite installation instructions for your operating system:
-- OSX setup instructions (requires [homebrew](http://brew.sh/)):
+- OSX setup:
   ```sh
   brew install node php56 sqlite3 curl
   ```
 
-- Ubuntu 14.04 setup instructions:
+- Ubuntu 14.04 setup:
   ```sh
   sudo apt-get update
-  sudo apt-get install nodejs php5 php5-mysql sqlite3 sqlite3-dev curl
+  sudo apt-get install nodejs php5 php5-mysql sqlite3 libsqlite3-dev curl
   ```
 
 Once dependencies are installed, run the following to start a local web server hosting the application.
   ```sh
-  git clone git@github.com:/riguy724/uber-movies-hw
+  git clone git@github.com:/riguy724/uber-movies-hw.git
   cd uber-movies-hw
-  server/setup.sh
+  cp .env.default .env
+  bin/install
+  php artisan serve
   ```
+
+If the PHP webserver gives you a failed to listen error, it is most likely that you need a corresponding hosts entry.  Simply add a line like this to the bottom of your `/etc/hosts` file:
+
+`127.0.0.1       localhost`
 
 If all went well, the application should be running and locally accessible by navigating to [http://localhost:8000](http://localhost:8000).
 
