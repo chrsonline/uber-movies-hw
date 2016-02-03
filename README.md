@@ -2,7 +2,7 @@
 
 This is a simple web app that let's you search for movie filming locations in the San Francisco area.  Search results will auto complete for matching movie titles or filming location names.  After selecting a movie you'll see some information about the movie, as well as pins indicating locations where the movie was shot.  Mousing over a location will display a popover window with more information about that particular location.
 
-The project is currently hosted on an Amazon EC2 instance [here](http://amazon.com).
+The project is currently hosted on an Amazon EC2 instance [here](http://sfmovies.chrs.online).
 
 ### Problem statement
 
@@ -18,7 +18,7 @@ More information on the problem statement can be seen [here](https://github.com/
 
 * [Architecture design diagram](docs/architecture-diagram.png)
 
-* [Hosted Application](http://amazon.com) and [Installation instructions](#installation)
+* [Hosted Application](http://sfmovies.chrs.online) and [Installation instructions](#installation)
 
 * [Future enhancements](#enhancements)
 
@@ -100,29 +100,38 @@ See the [architecture diagram](docs/architecture-diagram.png) for an overview of
 
 You should be able to spin up a local php webserver supporting the needed functionality if you have the following dependencies installed.
 
-- node/npm
+- node.js/npm (must be node version 5+)
 - php5.6+
 - sqlite3
 - curl
+- [homebrew](http://brew.sh/) (OSX only)
 
 Use the following prerequisite installation instructions for your operating system:
-- OSX setup instructions (requires [homebrew](http://brew.sh/)):
+- OSX setup:
   ```sh
   brew install node php56 sqlite3 curl
   ```
 
-- Ubuntu 14.04 setup instructions:
+- Ubuntu 14.04 setup:
   ```sh
   sudo apt-get update
-  sudo apt-get install nodejs php5 php5-mysql sqlite3 sqlite3-dev curl
+  sudo apt-get install -y build-essential php5 php5-sqlite sqlite3 libsqlite3-dev curl
+  curl -sL https://deb.nodesource.com/setup_5.x | sudo -E bash -
+  sudo apt-get update && apt-get install -y nodejs
   ```
 
 Once dependencies are installed, run the following to start a local web server hosting the application.
   ```sh
-  git clone git@github.com:/riguy724/uber-movies-hw
+  git clone git@github.com:/riguy724/uber-movies-hw.git
   cd uber-movies-hw
-  server/setup.sh
+  cp .env.default .env
+  bin/install
+  php artisan serve
   ```
+
+If the PHP webserver gives you a failed to listen error, it is most likely that you need a corresponding hosts entry.  Simply add a line like this to the bottom of your `/etc/hosts` file:
+
+`127.0.0.1       localhost`
 
 If all went well, the application should be running and locally accessible by navigating to [http://localhost:8000](http://localhost:8000).
 
@@ -134,12 +143,14 @@ For detailed setup instructions or to host the application on a server please re
 
 ## <a name="enhancements"></a>Future enhancements
 
-* Improved search functionality for any field, might require using something like lucene as a document store to improve full text search on an entire records, so as not to have to specify every field in a mysql "like" query.
+* Improved search functionality for any piece of data, might require using something like lucene as a document store to improve full text search on an entire records, so as not to have to specify every field in a mysql "like" query (although that would be completely manageable with an attribute list this small).
 
-* Improved data validation and error schema.  There is some allowance for expections being thrown, but if this service were to be consumer or maintained for use as a maintained or publicly accessible API, there would need to be a lot of additional error handling and service specification.
+* Improved data validation and error schema.  There is some allowance for exceptions being thrown, but if this service were to be consumer or maintained for use as a maintained or publicly accessible API, there would need to be a lot of additional error handling and service specification.
+
+* More unit and functional testing.  There are some tests, but there could be a lot better.  The feature set and scope here is small, so there isn't much need for test coverage, but as an application likes this grows it would become increasingly important to have good insight in to what portions of the application are functioning correctly as code changes.
 
 * Paginated collection browsing, following better restful document access for each location, movie, actor.
 
-* Allowing search by related records (actors, movies etc...) would require that the dataset be better organized or as previously mentioned a document data store + inverted index.
-
 * Shareable links for searches based on URL parsing, backbone can do this easily with its router.
+
+* Add utilities for uploading more data or for users to fix invalid or inaccurate data entries.

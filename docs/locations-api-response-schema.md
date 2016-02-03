@@ -1,5 +1,7 @@
 ## Film locations API request/response specification
 
+Detailed here are the request and response specifications for interacting with the locations search API.  The response formats use [json schema](http://json-schema.org/latest/json-schema-core.html) to declare the response fields, their types and what (if any) fields are required in the response. 
+
 ### <a name="autocomplete-suggestions"></a> Autocomplete search
 The API will perform a textual search of movies and locations returning whole or partial matches of `query`.
 
