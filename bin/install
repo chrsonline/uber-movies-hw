@@ -7,6 +7,6 @@ php composer.phar install
 
 php artisan key:generate
 
-node_modules/.bin/gulp
+DISABLE_NOTIFIER=true node_modules/.bin/gulp
 
 vendor/bin/phpunit

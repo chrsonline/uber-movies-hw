@@ -1,21 +1,28 @@
-var DocumentRow = Backbone.View.extend({
-
-  tagName: "li",
-
-  className: "document-row",
-
+var AutocompleteView = Backbone.View.extend({
+  el: '#search',
+  initialize: function(options) {
+      this.suggestions = new SuggestionsCollection();
+      this.resultsView = options.resultsView;
+      this.suggestions.on('reset', this.addAll, this );
+  },
   events: {
-    "click .icon":          "open",
-    "click .button.edit":   "openEditDialog",
-    "click .button.delete": "destroy"
+      "input #search-term": "updateItems",
   },
-
-  initialize: function() {
-    this.listenTo(this.model, "change", this.render);
+  updateItems: function () {
+      this.suggestions.fetch();
   },
+  addAll: function () {
+    var autocomplete = [];
+    this.suggestions.each(function(suggestion) {
+      autocomplete.push(suggestion.get('title'));
+    });
 
-  render: function() {
-    
+    $('#search-term').autocomplete({
+      source: autocomplete,
+      select: function(event, ui) {
+         $(this).val(ui.item.value);
+         this.resultsView.updateItems();
+       }
+    });
   }
-
 });

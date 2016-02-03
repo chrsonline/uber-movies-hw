@@ -143,11 +143,13 @@ For detailed setup instructions or to host the application on a server please re
 
 ## <a name="enhancements"></a>Future enhancements
 
+* More unit and functional testing.  There are some tests, but the coverage and functionality tested could definitely be improved.  The feature set and scope here is small, so there isn't much need for test coverage, but as an application likes this grows it would become increasingly important to have good insight in to what portions of the application are functioning correctly as code changes.
+
 * Improved search functionality for any piece of data, might require using something like lucene as a document store to improve full text search on an entire records, so as not to have to specify every field in a mysql "like" query (although that would be completely manageable with an attribute list this small).
 
 * Improved data validation and error schema.  There is some allowance for exceptions being thrown, but if this service were to be consumer or maintained for use as a maintained or publicly accessible API, there would need to be a lot of additional error handling and service specification.
 
-* More unit and functional testing.  There are some tests, but there could be a lot better.  The feature set and scope here is small, so there isn't much need for test coverage, but as an application likes this grows it would become increasingly important to have good insight in to what portions of the application are functioning correctly as code changes.
+* Improved build system for the javascript front-end for loading, using something like require.js.  Currently the scripts are loaded individually in a somewhat structured manner based on their dependencies.
 
 * Paginated collection browsing, following better restful document access for each location, movie, actor.
 
