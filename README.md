@@ -84,6 +84,7 @@ This web appplication addresses the 4 use cases outlined below.
 - Laravel - PHP Framework for MVC, database access, event triggers and console commands
 - Google Places API - For geocoding locations to displayable coordinates.
 - PHPUnit - Unit testing framework for the backend application.
+- Mockery - To generate mocks with assertions for functional and unit tests.
 - Gulp.js - Build system for compiling sass and javascript files.
 
 ##### Frontend

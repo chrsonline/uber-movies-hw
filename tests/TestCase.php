@@ -22,4 +22,9 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
 
         return $app;
     }
+
+    public function baseUrl()
+    {
+      return getenv('BASE_URL');
+    }
 }

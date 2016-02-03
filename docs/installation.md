@@ -30,12 +30,6 @@ In addition you must build the javascript and css files for distribution, this i
 
 `DISABLE_NOTIFIER=true node_modules/.bin/gulp`
 
-### Running unit tests
-
-To execute backend unit tests run:
-
-`vendor/bin/phpunit`
-
 ### Configuration
 
 The Laravel application configuration happens through environment variables.  The application config files are organized under the `config` directory and link in values from the environment in an organized fashion. All local configurations to these values should be overridden in the applications `.env` file located in the root directory.  There is a provided `.env.default` template which should provide you with a good starting point for configuring your environment for the application to run in.
@@ -105,6 +99,14 @@ You'll also need to give your web server's user read and write access to the `st
 
 Once this is done, just set the directory for servicing requests to the location of `public/` in this repository and you should be all set.
 
+### Running unit tests
+
+To run the application tests, start your server up and confirm that it is serving pages on some domain, either locally or on an ip or URL.
+
+Configure PHPUnit to interact with your server by editing `phpunit.xml` and adding the `<env name="BASE_URL" value="<server location>"/>` tag to your environment, replacing `<server location>` with your application's location.
+
+Then run the following to test that routes, endpoints and application components are functioning properly:
+`vendor/bin/phpunit`
 
 ### Verify installation
 
