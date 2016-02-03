@@ -18,7 +18,7 @@ More information on the problem statement can be seen [here](https://github.com/
 
 * [Architecture design diagram](docs/architecture-diagram.png)
 
-* [Hosted Application](http://amazon.com) and [Installation instructions](#installation)
+* [Hosted Application](http://sfmovies.chrs.online) and [Installation instructions](#installation)
 
 * [Future enhancements](#enhancements)
 
