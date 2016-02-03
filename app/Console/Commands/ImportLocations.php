@@ -3,6 +3,8 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use App\Utility\Geocoder;
+use App\FilmingLocation;
 
 class ImportLocations extends Command
 {
@@ -40,6 +42,25 @@ class ImportLocations extends Command
      */
     public function handle()
     {
-        $file = file_get_contents($this->argument('data-file'));
+      $dataFile = fopen($this->argument('data-file'), "r");
+
+        if($dataFile) {
+          $rowCounter = 0;
+          while (($rowData = fgetcsv($dataFile, 0, ",")) !== FALSE) {
+              if( 0 === $rowCounter) {
+                  $headerRecord = $rowData;
+              } else {
+                $location = new FilmingLocation;
+                foreach( $rowData as $key => $value) {
+                  $attribute = $headerRecord[$key];
+                  $location->$attribute = $value;
+                }
+                $location->save();
+                $this->info("Record for {$location->location} added to database.");
+              }
+              $rowCounter++;
+          }
+          fclose($dataFile);
+        }
     }
 }

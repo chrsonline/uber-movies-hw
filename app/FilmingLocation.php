@@ -4,6 +4,7 @@ namespace App;
 
 use Event;
 use Illuminate\Database\Eloquent\Model;
+use App\Events\NewLocationAdded;
 
 class FilmingLocation extends Model
 {
