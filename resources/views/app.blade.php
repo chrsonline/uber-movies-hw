@@ -79,7 +79,7 @@
 </head>
 <body>
 	<div id="search">
-			<input type="text" id="search-term" autofocus></input>
+			<input type="text" id="search-term" placeholder="Search movie titles" autofocus></input>
 			<div id="autocomplete">
 				<ul></ul>
 			</div>
@@ -91,6 +91,7 @@
 
 	<!-- Scripts -->
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script src="js/lib/watermark.js"></script>
 	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>

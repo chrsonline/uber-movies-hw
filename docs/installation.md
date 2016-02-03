@@ -10,11 +10,10 @@ These instructions assume a clean installation of Ubuntu 14.04 server.
 
 ### Installing the code base
 
-sudo apt-get install git-core
-git clone git@github.com:/riguy724/uber-movies-hw.git
-
-enter a mysql root password for configuration
+Be sure to remember your set mysql password and database name
 ```
+sudo apt-get install git-core
+git clone git@github.com:/chrsonline/uber-movies-hw.git
 sudo apt-get update
 sudo apg-get install git-core
 sudo apt-get install build-essential php5 php5-mysql php5-sqlite sqlite3 libsqlite3-dev curl mysql-server

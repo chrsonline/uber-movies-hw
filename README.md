@@ -122,7 +122,7 @@ Use the following prerequisite installation instructions for your operating syst
 
 Once dependencies are installed, run the following to start a local web server hosting the application.
   ```sh
-  git clone git@github.com:/riguy724/uber-movies-hw.git
+  git clone git@github.com:/chrsonline/uber-movies-hw.git
   cd uber-movies-hw
   cp .env.default .env
   bin/install
