@@ -143,12 +143,14 @@ For detailed setup instructions or to host the application on a server please re
 
 ## <a name="enhancements"></a>Future enhancements
 
-* Improved search functionality for any field, might require using something like lucene as a document store to improve full text search on an entire records, so as not to have to specify every field in a mysql "like" query.
+* Improved search functionality for any piece of data, might require using something like lucene as a document store to improve full text search on an entire records, so as not to have to specify every field in a mysql "like" query (although that would be completely manageable with an attribute list this small).
 
-* Improved data validation and error schema.  There is some allowance for expections being thrown, but if this service were to be consumer or maintained for use as a maintained or publicly accessible API, there would need to be a lot of additional error handling and service specification.
+* Improved data validation and error schema.  There is some allowance for exceptions being thrown, but if this service were to be consumer or maintained for use as a maintained or publicly accessible API, there would need to be a lot of additional error handling and service specification.
+
+* More unit and functional testing.  There are some tests, but there could be a lot better.  The feature set and scope here is small, so there isn't much need for test coverage, but as an application likes this grows it would become increasingly important to have good insight in to what portions of the application are functioning correctly as code changes.
 
 * Paginated collection browsing, following better restful document access for each location, movie, actor.
 
-* Allowing search by related records (actors, movies etc...) would require that the dataset be better organized or as previously mentioned a document data store + inverted index.
-
 * Shareable links for searches based on URL parsing, backbone can do this easily with its router.
+
+* Add utilities for uploading more data or for users to fix invalid or inaccurate data entries.
