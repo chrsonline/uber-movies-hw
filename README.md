@@ -1,6 +1,6 @@
 # San Francisco filming locations search
 
-This is a simple web app that let's you search for movie filming locations in the San Francisco area.  Search results will auto complete for matching movie titles or filming location names.  After selecting a movie you'll see some information about the movie, as well as pins indicating locations where the movie was shot.  Mousing over a location will display a popover window with more information about that particular location.
+This is a simple web app that lets you search for movie filming locations in the San Francisco area.  Search results will auto complete for matching movie titles or filming location names.  After selecting a movie you'll see some information about the movie, as well as pins indicating locations where the movie was shot.  Mousing over a location will display a popover window with more information about that particular location.
 
 The project is currently hosted on an Amazon EC2 instance [here](http://sfmovies.chrs.online).
 
@@ -26,7 +26,7 @@ More information on the problem statement can be seen [here](https://github.com/
 
 ##<a name="use-cases"></a>Use cases this solution addresses
 
-This web appplication addresses the 4 use cases outlined below.
+This web application addresses the 4 use cases outlined below.
 
 1. **Request suggestions** - User requests suggestions for matching text based on an input query.
   * A request is made to the Film Locations API via a GET request to `search/autocomplete` with the users input as they type.
@@ -144,7 +144,7 @@ For detailed setup instructions or to host the application on a server please re
 
 ## <a name="enhancements"></a>Future enhancements
 
-* More unit and functional testing.  There are some tests, but the coverage and functionality tested could definitely be improved.  The feature set and scope here is small, so there isn't much need for test coverage, but as an application likes this grows it would become increasingly important to have good insight in to what portions of the application are functioning correctly as code changes.
+* More unit and functional testing.  There are some tests, but the coverage and functionality tested could definitely be improved.  The feature set and scope here is small, so there isn't much need for test coverage, but as an application like this grows it would become increasingly important to have good insight in to what portions of the application are functioning correctly as code changes.
 
 * Improved search functionality for any piece of data, might require using something like lucene as a document store to improve full text search on an entire records, so as not to have to specify every field in a mysql "like" query (although that would be completely manageable with an attribute list this small).
 
